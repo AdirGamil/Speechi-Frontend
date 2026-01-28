@@ -1,0 +1,444 @@
+================================================================================
+SPEECHI — LANDING PAGE COPY: FRENCH, SPANISH, ARABIC
+================================================================================
+Copy only. No code. Tone: calm, professional, trustworthy, modern. No hype.
+
+================================================================================
+FRENCH (fr)
+================================================================================
+
+------------------------------------
+1. HERO SECTION
+------------------------------------
+Main headline:
+Réunions, résumées. Clairement.
+
+Short subtitle (1–2 lines):
+Téléversez un enregistrement. Obtenez une transcription complète, un résumé clair et des points d’action en quelques minutes. Plus de prises de notes à la main.
+
+Primary CTA button:
+Commencer avec Speechi
+
+Secondary CTA button:
+Comment ça marche
+
+------------------------------------
+2. SHORT VALUE STATEMENT
+------------------------------------
+Prendre des notes pendant une réunion divise votre attention. Vous ratez l’essentiel et les décisions passent entre les mailles du filet. Speechi enregistre et transcrit la conversation pour que vous puissiez vous concentrer sur la participation. Vous obtenez un résumé fidèle, les décisions et les points d’action—sans avoir à choisir entre contribuer et documenter.
+
+------------------------------------
+3. CORE BENEFITS (4–5 items)
+------------------------------------
+Participation pleine et entière aux réunions
+Arrêtez de partager votre attention entre contribuer et noter; restez pleinement dans la conversation.
+
+Détection automatique des points d’action
+Speechi met en évidence les engagements et les prochaines étapes pour que rien ne se perde.
+
+Résumés fidèles
+La transcription et l’analyse reposent sur des modèles éprouvés; vous obtenez un résultat fiable et structuré.
+
+Partage rapide
+Exportez en Word ou PDF et partagez avec votre équipe juste après la réunion.
+
+Multilinguisme
+Choisissez la langue de sortie et recevez transcriptions et résumés dans la langue dont vous avez besoin.
+
+------------------------------------
+4. FROM MANUAL NOTES TO AI CLARITY
+------------------------------------
+
+Notes manuelles (problèmes):
+Attention divisée — Vous contribuez ou vous notez, rarement les deux.
+Décisions manquantes — Les conclusions clés n’arrivent souvent jamais sur le papier.
+Documentation partielle — Ce qui est noté dépend de qui tape et du moment où il décroche.
+Difficile à retrouver — Les notes sont éparpillées entre outils et formats.
+Diffusion lente — Résumés et prochaines étapes prennent du temps à rédiger et à envoyer.
+
+Speechi avec l’IA (solutions):
+Tout le monde participe — Personne n’est bloqué en secrétaire de séance.
+Documentation complète — Transcription intégrale et résumé structuré, à chaque fois.
+Décisions et actions extraites — Engagements et prochaines étapes clairement identifiés.
+Prêt à partager tout de suite — Exportez et partagez dès la fin de la réunion.
+Mémoire de réunions rechercheable — Transcripts et résumés que vous pouvez rechercher et réutiliser.
+
+------------------------------------
+5. WHY AI MEETING NOTES IMPROVE TEAM PRODUCTIVITY
+------------------------------------
+Quand quelqu’un est désigné pour prendre les notes, il contribue moins. L’équipe perd une voix, et les notes reflètent encore le focus et les angles morts d’une seule personne. L’IA supprime cet arbitrage. Chacun peut participer pleinement pendant que Speechi gère transcription et résumé. Les managers et leads techniques en bénéficient le plus: ils gardent le contexte, les décisions et les points d’action sans sacrifier leur présence dans la conversation.
+
+------------------------------------
+6. AUTOMATIC ACTION ITEMS
+------------------------------------
+Speechi repère les engagements et tâches mentionnés dans la conversation et les expose comme des points d’action clairs. Quand quelqu’un dit qu’il prend en charge un sujet ou accepte une échéance, cela apparaît dans le résumé. Les responsabilités deviennent visibles, donc le suivi est plus simple et moins d’éléments tombent entre les mailles du filet.
+
+En bref: Des points d’action clairs signifient moins de relais lâchés et une meilleure redevabilité.
+
+------------------------------------
+7. SEARCHABLE ORGANIZATIONAL MEMORY
+------------------------------------
+Les réunions contiennent un savoir crucial: décisions, contexte, engagements. Les notes traditionnelles sont dispersées entre outils et rarement rechercheables. Speechi vous donne une transcription et un résumé par réunion que vous pouvez stocker, rechercher et consulter. Cela crée de la transparence, de la redevabilité et un savoir durable, au lieu de l’oubli institutionnel.
+
+------------------------------------
+8. REMOTE AND HYBRID TEAMS
+------------------------------------
+Les équipes distantes et hybrides ont besoin d’un accès égal à ce qui a été dit et décidé. Speechi permet aux absents de rattraper de façon asynchrone avec une transcription et un résumé complets. Fini le « qu’est-ce qu’on a décidé? » ou « qui devait faire ça? »—tout le monde travaille à partir du même document.
+
+------------------------------------
+9. USE CASES
+------------------------------------
+Stand-ups d’équipe — Résumés et points d’action rapides et structurés pour garder toute l’équipe alignée.
+
+Réunions clients — Comptes rendus fidèles des échanges et engagements pour le suivi et la conformité.
+
+Planification stratégique — Documentation claire des décisions et prochaines étapes pour l’exécution et la revue.
+
+Réunions de conseil — Transcripts et résumés fiables pour la gouvernance et la traçabilité.
+
+Lancements de projet — Contexte et points d’action partagés pour que chacun sache ce qui a été convenu.
+
+Collaboration inter-équipes — Archives rechercheables pour que les équipes trouvent et réutilisent ce qui compte.
+
+------------------------------------
+10. HOW IT WORKS (3 STEPS)
+------------------------------------
+Étape 1: Enregistrez ou téléversez votre réunion.
+Utilisez votre enregistreur habituel ou téléversez un fichier audio existant (ex. MP3, WAV, M4A).
+
+Étape 2: L’IA transcrit et analyse la conversation.
+Speechi transforme la parole en texte et extrait résumé, participants, décisions et points d’action.
+
+Étape 3: Partagez, exportez et archivez les résultats.
+Téléchargez Word ou PDF, partagez avec l’équipe et gardez une trace rechercheable pour plus tard.
+
+------------------------------------
+11. ADVANCED FEATURES
+------------------------------------
+Identification des locuteurs — Les locuteurs sont distingués dans la transcription quand c’est possible; aucune identification personnelle sauf si vous l’ajoutez.
+
+Extraction des décisions — Les décisions clés sont extraites et listées pour les retrouver et les suivre facilement.
+
+Export multi-format — Export Word ou PDF pour partager et archiver dans les formats que vous utilisez.
+
+Sortie multilingue — Choisissez la langue de la transcription et du résumé pour que les équipes globales reçoivent un résultat dans leur langue.
+
+------------------------------------
+12. FAQ (5–6 QUESTIONS)
+------------------------------------
+Quelle est la précision de Speechi par rapport à un preneur de notes humain?
+Speechi utilise Whisper pour la transcription et Claude pour l’analyse. La précision est élevée pour un audio clair; vous obtenez un compte rendu cohérent et structuré, sans les trous et biais d’un seul preneur de notes.
+
+Comment fonctionne l’identification des locuteurs?
+Speechi distingue les locuteurs dans l’audio quand c’est possible. Il n’associe pas de noms réels sauf si vous les ajoutez; les locuteurs sont en général étiquetés de façon générique (ex. Locuteur 1, 2) pour la confidentialité.
+
+Comment les points d’action sont-ils détectés?
+Le système repère les engagements, échéances et responsabilités dans la conversation et les expose comme points d’action. Vous pouvez les relire et les corriger avant de partager.
+
+Puis-je rechercher sur plusieurs réunions?
+Vous pouvez stocker et rechercher dans vos propres transcriptions et résumés exportés. Speechi fournit la sortie; l’organisation et la recherche dépendent de votre façon de travailler.
+
+Quelles plateformes sont prises en charge?
+Utilisez Speechi dans tout navigateur moderne. Téléversez l’audio depuis votre appareil; aucun matériel ni plugin particulier requis.
+
+Combien de temps prend le traitement?
+Le temps dépend de la longueur de l’enregistrement. La plupart des réunions sont traitées en quelques minutes. Vous voyez la progression dans l’appli.
+
+------------------------------------
+13. FINAL CTA
+------------------------------------
+Vous méritez des réunions où tout le monde participe et où rien d’important ne se perd. Commencez par un seul enregistrement et voyez ce que la clarté apporte. Sans pression—téléversez, relisez et partagez quand vous êtes prêt.
+
+
+================================================================================
+SPANISH (es)
+================================================================================
+
+------------------------------------
+1. HERO SECTION
+------------------------------------
+Main headline:
+Reuniones, resumidas. Con claridad.
+
+Short subtitle (1–2 lines):
+Sube una grabación. Obtén una transcripción completa, un resumen claro y puntos de acción en minutos. Sin notas a mano.
+
+Primary CTA button:
+Empezar con Speechi
+
+Secondary CTA button:
+Cómo funciona
+
+------------------------------------
+2. SHORT VALUE STATEMENT
+------------------------------------
+Tomar notas en una reunión divide tu atención. Te pierdes lo importante y las decisiones se escapan. Speechi graba y transcribe la conversación para que puedas centrarte en participar. Obtienes un resumen fiel, las decisiones y los puntos de acción—sin elegir entre contribuir y documentar.
+
+------------------------------------
+3. CORE BENEFITS (4–5 items)
+------------------------------------
+Participación plena en las reuniones
+Deja de repartir tu atención entre contribuir y anotar; permanece en la conversación.
+
+Detección automática de puntos de acción
+Speechi saca a la luz compromisos y próximos pasos para que nada se pierda.
+
+Resúmenes fieles
+La transcripción y el análisis se apoyan en modelos probados; obtienes una salida fiable y estructurada.
+
+Compartir rápido
+Exporta a Word o PDF y comparte con tu equipo nada más terminar la reunión.
+
+Varios idiomas
+Elige el idioma de salida y obtén transcripciones y resúmenes en el idioma que necesitas.
+
+------------------------------------
+4. FROM MANUAL NOTES TO AI CLARITY
+------------------------------------
+
+Notas manuales (problemas):
+Atención dividida — O contribuyes o anotas, rara vez ambas.
+Decisiones que faltan — Las conclusiones clave a menudo no llegan al papel.
+Documentación parcial — Lo que se escribe depende de quién escribe y de cuándo desconecta.
+Difícil de buscar después — Las notas viven en distintas herramientas y formatos, dispersas.
+Distribución lenta — Resúmenes y próximos pasos llevan tiempo extra en redactar y enviar.
+
+Speechi con IA (soluciones):
+Todos participan — Nadie atrapado como secretario.
+Documentación completa — Transcripción completa y resumen estructurado, cada vez.
+Decisiones y acciones extraídas — Compromisos y próximos pasos claramente señalados.
+Listo para compartir al instante — Exporta y comparte nada más acabar la reunión.
+Memoria de reuniones buscable — Transcripciones y resúmenes que puedes buscar y reutilizar.
+
+------------------------------------
+5. WHY AI MEETING NOTES IMPROVE TEAM PRODUCTIVITY
+------------------------------------
+Cuando alguien del equipo tiene que tomar notas, contribuye menos. El equipo pierde una voz, y las notas siguen reflejando el foco y los huecos de una sola persona. La IA elimina ese intercambio. Todos pueden participar al cien por cien mientras Speechi se encarga de la transcripción y el resumen. Los responsables y tech leads se benefician más: mantienen contexto, decisiones y puntos de acción sin sacrificar su presencia en la conversación.
+
+------------------------------------
+6. AUTOMATIC ACTION ITEMS
+------------------------------------
+Speechi identifica compromisos y tareas mencionados en la conversación y los presenta como puntos de acción claros. Cuando alguien dice que se hace cargo de algo o acepta una fecha, eso aparece en el resumen. Las responsabilidades se hacen visibles, así que el seguimiento es más fácil y se pierden menos cosas.
+
+Conclusión: Puntos de acción claros implican menos entregas caídas y mejor rendición de cuentas.
+
+------------------------------------
+7. SEARCHABLE ORGANIZATIONAL MEMORY
+------------------------------------
+Las reuniones contienen conocimiento crítico: decisiones, contexto, compromisos. Las notas tradicionales están dispersas entre herramientas y rara vez son buscables. Speechi te da transcripción y resumen por reunión que puedes almacenar, buscar y consultar. Eso crea transparencia, rendición de cuentas y conocimiento duradero, en lugar de olvido institucional.
+
+------------------------------------
+8. REMOTE AND HYBRID TEAMS
+------------------------------------
+Los equipos remotos e híbridos necesitan acceso equitativo a lo que se dijo y se decidió. Speechi permite a quienes faltaron ponerse al día de forma asíncrona con transcripción y resumen completos. Se acaba el « qué decidimos? » o « quién tenía que hacer eso? »—todos trabajan a partir del mismo documento.
+
+------------------------------------
+9. USE CASES
+------------------------------------
+Stand-ups de equipo — Resúmenes y puntos de acción rápidos y estructurados para que todo el equipo siga alineado.
+
+Reuniones con clientes — Registros fieles de discusiones y compromisos para seguimiento y cumplimiento.
+
+Planificación estratégica — Documentación clara de decisiones y próximos pasos para ejecución y revisión.
+
+Reuniones de junta — Transcripciones y resúmenes fiables para gobernanza y trazabilidad.
+
+Kickoffs de proyecto — Contexto y puntos de acción compartidos para que todos sepan qué se acordó.
+
+Colaboración entre equipos — Registros buscables para que distintos equipos encuentren y reutilicen lo que importa.
+
+------------------------------------
+10. HOW IT WORKS (3 STEPS)
+------------------------------------
+Paso 1: Graba o sube tu reunión.
+Usa tu grabadora habitual o sube un archivo de audio existente (p. ej. MP3, WAV, M4A).
+
+Paso 2: La IA transcribe y analiza la conversación.
+Speechi convierte el habla en texto y extrae resumen, participantes, decisiones y puntos de acción.
+
+Paso 3: Comparte, exporta y archiva los resultados.
+Descarga Word o PDF, comparte con el equipo y conserva un registro buscable para más adelante.
+
+------------------------------------
+11. ADVANCED FEATURES
+------------------------------------
+Identificación de hablantes — Los hablantes se distinguen en la transcripción cuando es posible; ninguna identificación personal salvo que tú la indiques.
+
+Extracción de decisiones — Las decisiones clave se extraen y se listan para encontrarlas y seguirlas con facilidad.
+
+Exportación multi-formato — Exporta a Word o PDF para compartir y archivar en los formatos que usas.
+
+Salida multilingüe — Elige el idioma de la transcripción y del resumen para que equipos globales reciban la salida en su idioma.
+
+------------------------------------
+12. FAQ (5–6 QUESTIONS)
+------------------------------------
+¿Qué precisión tiene Speechi frente a un humano que toma notas?
+Speechi usa Whisper para transcripción y Claude para análisis. La precisión es alta con audio claro; obtienes un registro consistente y estructurado, sin los huecos y sesgos de un solo responsable de actas.
+
+¿Cómo funciona la identificación de hablantes?
+Speechi distingue hablantes en el audio cuando es posible. No asocia nombres reales salvo que tú los añadas; los hablantes suelen etiquetarse de forma genérica (p. ej. Hablante 1, 2) por privacidad.
+
+¿Cómo se detectan los puntos de acción?
+El sistema busca compromisos, plazos y responsabilidades en la conversación y los presenta como puntos de acción. Puedes revisarlos y ajustarlos antes de compartir.
+
+¿Puedo buscar en varias reuniones?
+Puedes almacenar y buscar en tus propias transcripciones y resúmenes exportados. Speechi te da la salida; cómo organices y busques depende de tu flujo de trabajo.
+
+¿Qué plataformas se soportan?
+Usa Speechi en cualquier navegador moderno. Sube audio desde tu dispositivo; no hace falta hardware ni plugins especiales.
+
+¿Cuánto tarda el procesamiento?
+Depende de la duración de la grabación. La mayoría de reuniones se procesan en minutos. Ves el progreso en la app.
+
+------------------------------------
+13. FINAL CTA
+------------------------------------
+Mereces reuniones en las que todos participan y nada importante se pierde. Empieza con una sola grabación y comprueba qué aporta la claridad. Sin presión—solo sube, revisa y comparte cuando estés listo.
+
+
+================================================================================
+ARABIC (ar) — RTL
+================================================================================
+
+------------------------------------
+1. HERO SECTION
+------------------------------------
+Main headline:
+اجتماعات موجزة. بوضوح.
+
+Short subtitle (1–2 lines):
+ارفع تسجيلاً. احصل على نسخ كامل وملخص واضح ونقاط عمل خلال دقائق. من دون تدوين يدوي.
+
+Primary CTA button:
+ابدأ باستخدام Speechi
+
+Secondary CTA button:
+كيف يعمل
+
+------------------------------------
+2. SHORT VALUE STATEMENT
+------------------------------------
+تدوين الملاحظات أثناء الاجتماع يشتت انتباهك. تفوتك النقاط المهمة وتتسرب القرارات. Speechi يسجّل وينسخ المحادثة حتى تركّز على المشاركة. تحصل على ملخص دقيق والقرارات ونقاط العمل—من دون الاختيار بين المساهمة والتوثيق.
+
+------------------------------------
+3. CORE BENEFITS (4–5 items)
+------------------------------------
+مشاركة كاملة في الاجتماعات
+توقّف عن تقسيم انتباهك بين المساهمة والتدوين; ابقَ حاضراً في المحادثة.
+
+كشف تلقائي لنقاط العمل
+Speechi يبرز الالتزامات والخطوات التالية حتى لا يُفقد شيء.
+
+ملخصات دقيقة
+النسخ والتحليل يعتمدان على نماذج مُجرّبة; تحصل على مخرجات موثوقة ومنظّمة.
+
+مشاركة سريعة
+صدّر إلى Word أو PDF وشارك مع فريقك فور انتهاء الاجتماع.
+
+دعم لغات متعددة
+اختر لغة المخرجات واحصل على نصوص وملخصات باللغة التي تحتاجها.
+
+------------------------------------
+4. FROM MANUAL NOTES TO AI CLARITY
+------------------------------------
+
+ملاحظات يدوية (مشكلات):
+انتباه مقسوم — إما تساهم أو تكتب، نادراً الاثنان معاً.
+قرارات ناقصة — النتائج الأساسية غالباً لا تصل إلى الورقة.
+توثيق جزئي — ما يُكتَب يعتمد على من يكتب ومتى ينقطع.
+صعب البحث لاحقاً — الملاحظات مبعثرة بين أدوات وصيغ.
+توزيع بطيء — الملخصات والخطوات التالية تحتاج وقتاً إضافياً للصياغة والإرسال.
+
+Speechi مع الذكاء الاصطناعي (حلول):
+الجميع يشارك — لا أحد عالق كمتلقّي للقرارات.
+توثيق كامل — نسخ كامل وملخص منظّم، في كل مرة.
+قرارات وإجراءات مستخرجة — التزامات وخطوات تالية واضحة.
+جاهز للمشاركة فوراً — صدّر وشارك فور انتهاء الاجتماع.
+ذاكرة اجتماعات قابلة للبحث — نصوص وملخصات يمكنك البحث فيها وإعادة استخدامها.
+
+------------------------------------
+5. WHY AI MEETING NOTES IMPROVE TEAM PRODUCTIVITY
+------------------------------------
+عندما يُعيَّن شخص في الفريق لتدوين الملاحظات، يساهم أقل. الفريق يفقد صوتاً، والملاحظات ما تزال تعكس تركيز وفجوات شخص واحد. الذكاء الاصطناعي يزيل هذه المفاضلة. الجميع يمكنه المشاركة بالكامل بينما Speechi يتولى النسخ والملخص. المدراء والقياديون التقنيون يستفيدون أكثر: يحافظون على السياق والقرارات ونقاط العمل من دون التضحية بحضورهم في المحادثة.
+
+------------------------------------
+6. AUTOMATIC ACTION ITEMS
+------------------------------------
+Speechi يحدد الالتزامات والمهام المذكورة في المحادثة ويعرضها كنقاط عمل واضحة. عندما يقول أحدهم إنه سيتولى شيئاً أو يوافق على موعد، يظهر ذلك في الملخص. تصبح المسؤوليات مرئية، فيسهل المتابعة ويُفقد عدد أقل من العناصر.
+
+خلاصة: نقاط عمل واضحة تعني تسليمات أقل ضائعة ومحاسبة أفضل.
+
+------------------------------------
+7. SEARCHABLE ORGANIZATIONAL MEMORY
+------------------------------------
+الاجتماعات تحتوي معرفة حرجة: قرارات، سياق، التزامات. الملاحظات التقليدية مبعثرة بين أدوات ونادراً قابلة للبحث. Speechi يمنحك نسخاً وملخصاً لكل اجتماع يمكنك تخزينه والبحث فيه والاستشهاد به. ذلك يخلق شفافية ومحاسبة ومعرفة دائمة، بدل النسيان المؤسسي.
+
+------------------------------------
+8. REMOTE AND HYBRID TEAMS
+------------------------------------
+فرق العمل عن بُعد والهجينة تحتاج وصولاً متساوياً إلى ما قيل وما قُُرِّر. Speechi يسمح للغائبين بتدارك التأخّر بشكل غير متزامن بنسخ وملخص كاملين. لا مزيد من «ماذا قررنا؟» أو «من كان يفترض أن يفعل ذلك؟»—الجميع يعمل من نفس السجل الموثّق.
+
+------------------------------------
+9. USE CASES
+------------------------------------
+الوقوف اليومي للفريق — ملخصات ونقاط عمل سريعة ومنظّمة ليبقى الفريق بأكمله متوافقاً.
+
+اجتماعات العملاء — سجلات دقيقة للنقاشات والالتزامات للمتابعة والامتثال.
+
+التخطيط الاستراتيجي — توثيق واضح للقرارات والخطوات التالية للتنفيذ والمراجعة.
+
+اجتماعات مجلس الإدارة — نصوص وملخصات موثوقة للحوكمة والتتبّع.
+
+انطلاقات المشاريع — سياق ونقاط عمل مشتركة ليعرف الجميع ما تم الاتفاق عليه.
+
+التعاون بين الفرق — سجلات قابلة للبحث حتى تجد الفرق المختلفة ما يهم وتعيد استخدامه.
+
+------------------------------------
+10. HOW IT WORKS (3 STEPS)
+------------------------------------
+الخطوة 1: سجّل أو ارفع اجتماعك.
+استخدم مسجّلك المعتاد أو ارفع ملف صوت موجود (مثلاً MP3, WAV, M4A).
+
+الخطوة 2: الذكاء الاصطناعي ينسخ ويحلّل المحادثة.
+Speechi يحوّل الكلام إلى نص ويستخرج الملخص والمشاركين والقرارات ونقاط العمل.
+
+الخطوة 3: شارك وصدّر وأرشف النتائج.
+نزّل Word أو PDF وشارك مع الفريق واحتفظ بسجل قابل للبحث لاحقاً.
+
+------------------------------------
+11. ADVANCED FEATURES
+------------------------------------
+تحديد المتحدثين — المتحدثون مُيَّزون في النسخ عندما أمكن; لا تحديد هوية شخصية إلا إذا أضفته أنت.
+
+استخراج القرارات — القرارات الأساسية مُستخرجة ومُدرجة لتسهيل العثور عليها وتتبّعها.
+
+تصدير بصيغ متعددة — تصدير إلى Word أو PDF للمشاركة والأرشفة بالصيغ التي تستخدمها.
+
+مخرجات متعددة اللغات — اختر لغة النسخ والملخص لتحصل الفرق العالمية على المخرجات بلغتها.
+
+------------------------------------
+12. FAQ (5–6 QUESTIONS)
+------------------------------------
+ما دقة Speechi مقارنة بإنسان يكتب الملاحظات؟
+Speechi يستخدم Whisper للنسخ وClaude للتحليل. الدقة عالية مع صوت واضح; تحصل على سجل متسق ومنظّم من دون الثغرات والتحيز لمسؤول واحد عن المحضر.
+
+كيف يعمل تحديد المتحدثين؟
+Speechi يُميّز المتحدثين في الصوت عندما أمكن. لا يربط أسماء حقيقية إلا إذا أضفتها أنت; عادةً يُوسَم المتحدثون بشكل عام (مثلاً متحدث 1، 2) للخصوصية.
+
+كيف تُكتشَف نقاط العمل؟
+النظام يبحث عن الالتزامات والمواعيد والمسؤولية في المحادثة ويعرضها كنقاط عمل. يمكنك المراجعة والتعديل قبل المشاركة.
+
+هل أستطيع البحث عبر عدة اجتماعات؟
+يمكنك تخزين والبحث في نصوصك وملخصاتك المُصدَّرة. Speechi يمنحك المخرجات; كيفية تنظيمك وبحثك تعتمد على سير عملك.
+
+ما المنصات المدعومة؟
+استخدم Speechi في أي متصفح حديث. ارفع الصوت من جهازك; لا حاجة لعتاد أو إضافات خاصة.
+
+ما سرعة المعالجة؟
+تعتمد على طول التسجيل. معظم الاجتماعات تُعالَج خلال دقائق. ترى التقدّم في التطبيق.
+
+------------------------------------
+13. FINAL CTA
+------------------------------------
+تستحق اجتماعات يشارك فيها الجميع ولا يُفقد فيها شيء مهم. ابدأ بتسجيل واحد واكتشف ما يجلبه الوضوح. من دون ضغط—فقط ارفع وراجع وشارك عندما تكون جاهزاً.
