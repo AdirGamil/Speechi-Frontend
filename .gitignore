@@ -4,7 +4,9 @@ dist
 .DS_Store
 
 # Environment files (keep .env.example)
-*.env
+.env
+.env.example
+.env.local
 .env.production
 .env.staging
 

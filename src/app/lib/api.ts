@@ -1,146 +1,261 @@
 /**
- * API client for Speechi backend. FormData: audio, language.
- * Supports both uploaded files and recorded audio (treated identically).
+ * Speechi API Client
  * 
- * API base URL is configured via environment variable VITE_API_BASE_URL.
- * No hardcoded URLs - supports both local development and production.
+ * Centralized API client for all backend communication.
+ * All requests go through this module - no direct fetch calls elsewhere.
+ * 
+ * Configuration:
+ * - API_BASE_URL is set via VITE_API_BASE_URL environment variable
+ * - Development: http://127.0.0.1:8000/api
+ * - Production: https://speechi-api.adirg.dev (or your API domain)
+ * 
+ * IMPORTANT: The URL must match your backend's API_PREFIX configuration.
+ * If backend has API_PREFIX=/api, use http://host:port/api
+ * If backend has API_PREFIX="" (empty), use http://host:port
  */
 
-// API base URL from environment (no trailing slash)
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api";
+// ===========================================
+// Configuration
+// ===========================================
 
-// Log in development for debugging
-if (import.meta.env.DEV) {
-  console.log("[API] Base URL:", API_BASE);
+/**
+ * API base URL from environment.
+ * MUST be set - no hardcoded fallbacks in production.
+ */
+const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
+
+// Validate configuration
+if (!API_BASE_URL) {
+  console.error(
+    "[Speechi API] VITE_API_BASE_URL is not set. " +
+    "Please check your .env file."
+  );
 }
 
-export type ActionItem = { description: string; owner?: string | null };
-export type Analysis = {
+// Log configuration in development
+if (import.meta.env.DEV) {
+  console.log("[Speechi API] Configuration:");
+  console.log(`  Base URL: ${API_BASE_URL}`);
+  console.log(`  Environment: ${import.meta.env.VITE_APP_ENV || "unknown"}`);
+}
+
+// ===========================================
+// Types
+// ===========================================
+
+export interface ActionItem {
+  description: string;
+  owner?: string | null;
+}
+
+export interface Analysis {
   summary: string;
   participants: string[];
   decisions: string[];
   action_items: ActionItem[];
   translated_transcript: string;
-};
-export type ApiResult = { transcript: string; analysis: Analysis };
+}
+
+export interface ApiResult {
+  transcript: string;
+  analysis: Analysis;
+}
+
+export interface ApiError {
+  detail: string;
+  status: number;
+}
+
+export interface HealthResponse {
+  status: string;
+  environment?: string;
+  api_prefix?: string;
+}
+
+export interface SupportedFormatsResponse {
+  formats: string[];
+  description: string;
+}
+
+// ===========================================
+// Core API Functions
+// ===========================================
 
 /**
- * Build FormData for audio upload endpoints.
+ * Build full API URL for an endpoint.
+ * Ensures proper URL construction without double slashes.
  */
-function buildFormData(file: File, language: string): FormData {
-  const fd = new FormData();
-  fd.append("audio", file);
-  fd.append("language", language);
-  return fd;
+function buildUrl(endpoint: string): string {
+  // Remove leading slash from endpoint if present
+  const cleanEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint;
+  // Remove trailing slash from base URL if present
+  const cleanBase = API_BASE_URL.endsWith("/") 
+    ? API_BASE_URL.slice(0, -1) 
+    : API_BASE_URL;
+  return `${cleanBase}/${cleanEndpoint}`;
 }
 
 /**
  * Parse error response from API.
  */
-function parseError(text: string): string {
+function parseErrorResponse(text: string, status: number): ApiError {
   try {
-    const j = JSON.parse(text) as { detail?: string };
-    if (typeof j.detail === "string") return j.detail;
+    const json = JSON.parse(text) as { detail?: string };
+    return {
+      detail: typeof json.detail === "string" ? json.detail : text,
+      status,
+    };
   } catch {
-    /* ignore */
+    return { detail: text || `Request failed with status ${status}`, status };
   }
-  return text;
 }
 
 /**
  * Generic fetch wrapper with error handling.
- * All API calls should use this function.
+ * All API calls MUST go through this function.
  */
-async function apiFetch(
+async function apiFetch<T>(
   endpoint: string,
   options?: RequestInit
-): Promise<Response> {
-  const url = `${API_BASE}${endpoint}`;
-  const res = await fetch(url, options);
-  return res;
+): Promise<T> {
+  const url = buildUrl(endpoint);
+  
+  if (import.meta.env.DEV) {
+    console.log(`[Speechi API] ${options?.method || "GET"} ${url}`);
+  }
+  
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...options?.headers,
+    },
+  });
+  
+  if (!response.ok) {
+    const text = await response.text();
+    const error = parseErrorResponse(text, response.status);
+    throw new Error(error.detail);
+  }
+  
+  return response.json() as Promise<T>;
 }
 
 /**
- * Analyze a meeting audio file.
- * Works with both uploaded files and browser recordings.
+ * Fetch that returns a Blob (for file downloads).
  */
-export async function analyzeMeeting(file: File, language: string): Promise<ApiResult> {
-  const res = await apiFetch("/process-meeting", {
-    method: "POST",
-    body: buildFormData(file, language),
-  });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(parseError(t) || `Request failed: ${res.status}`);
+async function apiFetchBlob(
+  endpoint: string,
+  options?: RequestInit
+): Promise<Blob> {
+  const url = buildUrl(endpoint);
+  
+  if (import.meta.env.DEV) {
+    console.log(`[Speechi API] ${options?.method || "GET"} ${url} (blob)`);
   }
-  return res.json() as Promise<ApiResult>;
+  
+  const response = await fetch(url, options);
+  
+  if (!response.ok) {
+    const text = await response.text();
+    const error = parseErrorResponse(text, response.status);
+    throw new Error(error.detail);
+  }
+  
+  return response.blob();
 }
 
 /**
- * Export meeting analysis as Word document.
- * Document headings are in the selected language.
+ * Build FormData for audio upload endpoints.
  */
-export async function exportWord(file: File, language: string): Promise<void> {
-  const res = await apiFetch("/process-meeting/export-docx", {
-    method: "POST",
-    body: buildFormData(file, language),
-  });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(parseError(t) || `Export failed: ${res.status}`);
-  }
-  const blob = await res.blob();
+function buildAudioFormData(file: File, language: string): FormData {
+  const formData = new FormData();
+  formData.append("audio", file);
+  formData.append("language", language);
+  return formData;
+}
+
+/**
+ * Trigger file download in browser.
+ */
+function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  // Language-aware filename
-  a.download = `meeting_summary_${language}.docx`;
-  a.click();
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
   URL.revokeObjectURL(url);
 }
 
+// ===========================================
+// Public API Functions
+// ===========================================
+
 /**
- * Export meeting analysis as PDF document.
- * Document headings are in the selected language.
- * RTL support for Hebrew and Arabic.
+ * Health check endpoint.
+ * Use to verify API connectivity.
  */
-export async function exportPdf(file: File, language: string): Promise<void> {
-  const res = await apiFetch("/process-meeting/export-pdf", {
-    method: "POST",
-    body: buildFormData(file, language),
-  });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(parseError(t) || `Export failed: ${res.status}`);
-  }
-  const blob = await res.blob();
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  // Language-aware filename
-  a.download = `meeting_summary_${language}.pdf`;
-  a.click();
-  URL.revokeObjectURL(url);
+export async function healthCheck(): Promise<HealthResponse> {
+  return apiFetch<HealthResponse>("health");
 }
 
 /**
  * Get supported audio formats from backend.
  */
-export async function getSupportedFormats(): Promise<{ formats: string[]; description: string }> {
-  const res = await apiFetch("/supported-formats");
-  if (!res.ok) {
-    throw new Error("Failed to fetch supported formats");
-  }
-  return res.json();
+export async function getSupportedFormats(): Promise<SupportedFormatsResponse> {
+  return apiFetch<SupportedFormatsResponse>("supported-formats");
 }
 
 /**
- * Health check endpoint.
+ * Analyze a meeting audio file.
+ * Works with both uploaded files and browser recordings.
+ * 
+ * @param file - Audio file (File object)
+ * @param language - Output language code (en, he, fr, es, ar)
+ * @returns Transcript and analysis results
  */
-export async function healthCheck(): Promise<{ status: string }> {
-  const res = await apiFetch("/health");
-  if (!res.ok) {
-    throw new Error("Health check failed");
-  }
-  return res.json();
+export async function analyzeMeeting(
+  file: File,
+  language: string
+): Promise<ApiResult> {
+  return apiFetch<ApiResult>("process-meeting", {
+    method: "POST",
+    body: buildAudioFormData(file, language),
+  });
+}
+
+/**
+ * Export meeting analysis as Word document.
+ * Document headings and content are in the selected language.
+ * 
+ * @param file - Audio file (File object)
+ * @param language - Output language code (en, he, fr, es, ar)
+ */
+export async function exportWord(
+  file: File,
+  language: string
+): Promise<void> {
+  const blob = await apiFetchBlob("process-meeting/export-docx", {
+    method: "POST",
+    body: buildAudioFormData(file, language),
+  });
+  downloadBlob(blob, `meeting_summary_${language}.docx`);
+}
+
+/**
+ * Export meeting analysis as PDF document.
+ * Document headings and content are in the selected language.
+ * RTL support for Hebrew and Arabic.
+ * 
+ * @param file - Audio file (File object)
+ * @param language - Output language code (en, he, fr, es, ar)
+ */
+export async function exportPdf(
+  file: File,
+  language: string
+): Promise<void> {
+  const blob = await apiFetchBlob("process-meeting/export-pdf", {
+    method: "POST",
+    body: buildAudioFormData(file, language),
+  });
+  downloadBlob(blob, `meeting_summary_${language}.pdf`);
 }
