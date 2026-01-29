@@ -20,10 +20,6 @@ import type { HistoryItem } from "./storage";
 
 const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 
-if (!API_BASE_URL) {
-  console.error("[Auth API] VITE_API_BASE_URL is not set");
-}
-
 // In-memory token storage (more secure than localStorage)
 let _token: string | null = null;
 

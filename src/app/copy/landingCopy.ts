@@ -1,7 +1,7 @@
 /**
- * Language-aware landing page copy loader.
- * Maps approved copy from landing-copy.txt and landing-copy-fr-es-ar.txt
- * into a structured object for all 13 sections. No runtime parsing.
+ * Language-aware landing page copy.
+ * Contains all landing page text for 5 supported languages.
+ * No runtime parsing - structured TypeScript objects.
  */
 
 export type LandingLang = "en" | "he" | "fr" | "es" | "ar";

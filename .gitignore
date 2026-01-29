@@ -3,9 +3,8 @@ dist
 *.local
 .DS_Store
 
-# Environment files (keep .env.example)
+# Environment files (keep .env.example - it should be committed)
 .env
-.env.example
 .env.local
 .env.production
 .env.staging

@@ -30,19 +30,11 @@ import { getToken } from "./authApi";
  */
 const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 
-// Validate configuration
-if (!API_BASE_URL) {
-  console.error(
-    "[Speechi API] VITE_API_BASE_URL is not set. " +
-    "Please check your .env file."
+// Validate configuration at startup (warning only, don't crash)
+if (!API_BASE_URL && import.meta.env.DEV) {
+  console.warn(
+    "[Speechi API] VITE_API_BASE_URL is not set. Check your .env file."
   );
-}
-
-// Log configuration in development
-if (import.meta.env.DEV) {
-  console.log("[Speechi API] Configuration:");
-  console.log(`  Base URL: ${API_BASE_URL}`);
-  console.log(`  Environment: ${import.meta.env.VITE_APP_ENV || "unknown"}`);
 }
 
 // ===========================================
@@ -127,10 +119,6 @@ async function apiFetch<T>(
 ): Promise<T> {
   const url = buildUrl(endpoint);
   
-  if (import.meta.env.DEV) {
-    console.log(`[Speechi API] ${options?.method || "GET"} ${url}`);
-  }
-  
   // Build headers with optional auth token
   const headers: Record<string, string> = {
     ...(options?.headers as Record<string, string>),
@@ -164,10 +152,6 @@ async function apiFetchBlob(
   options?: RequestInit
 ): Promise<Blob> {
   const url = buildUrl(endpoint);
-  
-  if (import.meta.env.DEV) {
-    console.log(`[Speechi API] ${options?.method || "GET"} ${url} (blob)`);
-  }
   
   // Build headers with optional auth token
   const headers: Record<string, string> = {
