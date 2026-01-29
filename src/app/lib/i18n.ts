@@ -139,6 +139,13 @@ export interface I18nStrings {
   microphonePermissionDenied: string;
   // Supported formats
   supportedFormats: string;
+  // Landing page specific
+  heroBadge: string;
+  scrollIndicator: string;
+  footerCopyright: string;
+  // Accessibility labels
+  selectLanguage: string;
+  toggleTheme: string;
 }
 
 const I18N: Record<UiLang, I18nStrings> = {
@@ -273,6 +280,13 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "Microphone access denied. Please allow microphone access to record.",
     // Supported formats
     supportedFormats: "Supported formats",
+    // Landing page specific
+    heroBadge: "AI-Powered Meeting Notes",
+    scrollIndicator: "Scroll",
+    footerCopyright: "All rights reserved",
+    // Accessibility labels
+    selectLanguage: "Select language",
+    toggleTheme: "Toggle theme",
   },
   he: {
     tagline: "Turn conversations into clarity.",
@@ -405,6 +419,13 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "הגישה למיקרופון נדחתה. אנא אשר גישה למיקרופון כדי להקליט.",
     // Supported formats
     supportedFormats: "פורמטים נתמכים",
+    // Landing page specific
+    heroBadge: "תמלול פגישות מונע AI",
+    scrollIndicator: "גלול",
+    footerCopyright: "כל הזכויות שמורות",
+    // Accessibility labels
+    selectLanguage: "בחר שפה",
+    toggleTheme: "החלף ערכת נושא",
   },
   fr: {
     tagline: "Turn conversations into clarity.",
@@ -537,6 +558,13 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "Accès au microphone refusé. Veuillez autoriser l'accès au microphone pour enregistrer.",
     // Supported formats
     supportedFormats: "Formats pris en charge",
+    // Landing page specific
+    heroBadge: "Notes de réunion alimentées par IA",
+    scrollIndicator: "Défiler",
+    footerCopyright: "Tous droits réservés",
+    // Accessibility labels
+    selectLanguage: "Sélectionner la langue",
+    toggleTheme: "Changer de thème",
   },
   es: {
     tagline: "Turn conversations into clarity.",
@@ -669,6 +697,13 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "Acceso al micrófono denegado. Por favor, permita el acceso al micrófono para grabar.",
     // Supported formats
     supportedFormats: "Formatos compatibles",
+    // Landing page specific
+    heroBadge: "Notas de reunión impulsadas por IA",
+    scrollIndicator: "Desplazar",
+    footerCopyright: "Todos los derechos reservados",
+    // Accessibility labels
+    selectLanguage: "Seleccionar idioma",
+    toggleTheme: "Cambiar tema",
   },
   ar: {
     tagline: "Turn conversations into clarity.",
@@ -801,6 +836,13 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "تم رفض الوصول إلى الميكروفون. يرجى السماح بالوصول إلى الميكروفون للتسجيل.",
     // Supported formats
     supportedFormats: "الصيغ المدعومة",
+    // Landing page specific
+    heroBadge: "ملاحظات اجتماعات مدعومة بالذكاء الاصطناعي",
+    scrollIndicator: "تمرير",
+    footerCopyright: "جميع الحقوق محفوظة",
+    // Accessibility labels
+    selectLanguage: "اختر اللغة",
+    toggleTheme: "تبديل المظهر",
   },
 };
 

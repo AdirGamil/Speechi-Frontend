@@ -35,6 +35,7 @@ import { useNavigate } from "../lib/router";
 import { Navbar } from "../components/Navbar";
 import { useLanguage } from "../context/LanguageContext";
 import { getLandingCopy, type LandingLang } from "../copy/landingCopy";
+import { useI18n } from "../hooks/useI18n";
 
 const HERO_WORDS_ID = "hero-title-word";
 const HERO_WORDS_SELECTOR = `[id^="${HERO_WORDS_ID}-"]`;
@@ -215,6 +216,7 @@ function FAQItem({ question, answer, isOpen, onToggle }: {
 export function Landing() {
   const navigate = useNavigate();
   const { language, isRTL } = useLanguage();
+  const { t } = useI18n();
   const copy = getLandingCopy(language as LandingLang);
   const heroRef = useRef<HTMLElement>(null);
   const benefitsRef = useRef<HTMLElement>(null);
@@ -461,7 +463,7 @@ export function Landing() {
             className="mb-8 inline-flex items-center gap-2 rounded-full border border-indigo-200/50 bg-indigo-50/80 px-4 py-2 text-sm font-medium text-indigo-700 backdrop-blur-sm dark:border-indigo-800/50 dark:bg-indigo-900/30 dark:text-indigo-300"
           >
             <HiSparkles className="h-4 w-4" />
-            <span>AI-Powered Meeting Notes</span>
+            <span>{t.heroBadge}</span>
           </div>
           
           {/* Title */}
@@ -498,7 +500,7 @@ export function Landing() {
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
           <div className="flex flex-col items-center gap-2 text-zinc-400">
-            <span className="text-xs tracking-wide uppercase">Scroll</span>
+            <span className="text-xs tracking-wide uppercase">{t.scrollIndicator}</span>
             <HiChevronDown className="h-5 w-5" />
           </div>
         </div>
@@ -807,7 +809,7 @@ export function Landing() {
       <footer className="border-t border-zinc-200/50 bg-white/50 backdrop-blur-sm py-8 dark:border-zinc-800/50 dark:bg-zinc-900/50">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            &copy; {new Date().getFullYear()} Speechi. All rights reserved.
+            &copy; {new Date().getFullYear()} Speechi. {t.footerCopyright}
           </p>
         </div>
       </footer>
