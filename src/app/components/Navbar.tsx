@@ -65,6 +65,7 @@ export function Navbar({ className = "" }: NavbarProps) {
 
   const { refs, floatingStyles, context } = useFloating({
     placement,
+    strategy: "fixed",
     open: showUserMenu,
     onOpenChange: setShowUserMenu,
     middleware: [
@@ -226,59 +227,59 @@ export function Navbar({ className = "" }: NavbarProps) {
                 </span>
               </button>
 
-              {/* Dropdown menu with Floating UI (portal for iOS / z-index) */}
+              {/* Dropdown menu: portal to body so it appears below the button */}
               {showUserMenu && (
-                <FloatingPortal root={typeof document !== "undefined" ? document.getElementById("overlay-root") ?? undefined : undefined}>
+                <FloatingPortal>
                   <FloatingFocusManager context={context} modal={false}>
                     <div
                       ref={(node) => {
                         refs.setFloating(node);
                         dropdownRef.current = node;
                       }}
-                      style={{ ...floatingStyles, position: "fixed" }}
+                      style={floatingStyles}
                       className="z-50 min-w-[180px] rounded-xl border border-zinc-200/60 bg-white/95 py-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/60 dark:bg-zinc-900/95 sm:min-w-[200px]"
                       {...getFloatingProps()}
                     >
-                    {/* User info */}
-                    <div className="border-b border-zinc-200/60 px-3 py-2 dark:border-zinc-700/60 sm:px-4 sm:py-3">
-                      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                        {user.name}
-                      </p>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">{user.email}</p>
-                    </div>
+                      {/* User info */}
+                      <div className="border-b border-zinc-200/60 px-3 py-2 dark:border-zinc-700/60 sm:px-4 sm:py-3">
+                        <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                          {user.name}
+                        </p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">{user.email}</p>
+                      </div>
 
-                    {/* Navigation items */}
-                    <div className="py-1">
-                      <button
-                        type="button"
-                        onClick={() => handleNavigation("/app/history")}
-                        className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
-                      >
-                        <HiClock className="h-4 w-4 text-zinc-400" />
-                        {t.history}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleNavigation("/app/settings")}
-                        className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
-                      >
-                        <HiCog6Tooth className="h-4 w-4 text-zinc-400" />
-                        {t.settings}
-                      </button>
-                    </div>
+                      {/* Navigation items */}
+                      <div className="py-1">
+                        <button
+                          type="button"
+                          onClick={() => handleNavigation("/app/history")}
+                          className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
+                        >
+                          <HiClock className="h-4 w-4 text-zinc-400" />
+                          {t.history}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleNavigation("/app/settings")}
+                          className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
+                        >
+                          <HiCog6Tooth className="h-4 w-4 text-zinc-400" />
+                          {t.settings}
+                        </button>
+                      </div>
 
-                    {/* Logout */}
-                    <div className="border-t border-zinc-200/60 pt-1 dark:border-zinc-700/60">
-                      <button
-                        type="button"
-                        onClick={handleLogout}
-                        className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30 sm:gap-3 sm:px-4 sm:py-2.5"
-                      >
-                        <HiArrowRightOnRectangle className="h-4 w-4" />
-                        {t.authLogout}
-                      </button>
+                      {/* Logout */}
+                      <div className="border-t border-zinc-200/60 pt-1 dark:border-zinc-700/60">
+                        <button
+                          type="button"
+                          onClick={handleLogout}
+                          className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30 sm:gap-3 sm:px-4 sm:py-2.5"
+                        >
+                          <HiArrowRightOnRectangle className="h-4 w-4" />
+                          {t.authLogout}
+                        </button>
+                      </div>
                     </div>
-                  </div>
                   </FloatingFocusManager>
                 </FloatingPortal>
               )}

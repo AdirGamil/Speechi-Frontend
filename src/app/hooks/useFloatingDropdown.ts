@@ -20,7 +20,6 @@ import {
   useInteractions,
   useListNavigation,
   FloatingFocusManager,
-  FloatingPortal,
   type Placement,
 } from "@floating-ui/react";
 
@@ -133,6 +132,5 @@ export function useFloatingDropdown(options: UseFloatingDropdownOptions = {}) {
     activeIndex,
     setActiveIndex,
     FloatingFocusManager,
-    FloatingPortal,
   };
 }
