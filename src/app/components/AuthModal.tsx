@@ -272,7 +272,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
   return (
     <div
       ref={overlayRef}
-      className="fixed top-0 left-0 right-0 bottom-0 z-50 flex min-h-screen items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex min-h-screen cursor-pointer items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="auth-modal-title"
@@ -280,7 +280,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-zinc-200/60 bg-white/95 shadow-2xl backdrop-blur-xl dark:border-zinc-800/60 dark:bg-zinc-900/95"
+        className="relative w-full max-w-md max-h-[90vh] cursor-default overflow-y-auto rounded-2xl border border-zinc-200/60 bg-white/95 shadow-2xl backdrop-blur-xl dark:border-zinc-800/60 dark:bg-zinc-900/95"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -304,7 +304,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
           <button
             type="button"
             onClick={handleClose}
-            className="absolute end-4 top-4 rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+            className="absolute end-4 top-4 cursor-pointer rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
             aria-label="Close"
           >
             <HiXMark className="h-5 w-5" />
@@ -483,7 +483,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute end-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
                   >
                     {showPassword ? <HiEyeSlash className="h-5 w-5" /> : <HiEye className="h-5 w-5" />}
                   </button>
@@ -524,7 +524,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute end-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
                   >
                     {showConfirmPassword ? <HiEyeSlash className="h-5 w-5" /> : <HiEye className="h-5 w-5" />}
                   </button>
@@ -538,7 +538,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:from-indigo-600 hover:to-violet-700 hover:shadow-xl hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-900"
+                className="w-full cursor-pointer rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:from-indigo-600 hover:to-violet-700 hover:shadow-xl hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-900"
               >
                 {isSubmitting ? t.loading : t.authSubmitRegister}
               </button>
@@ -614,7 +614,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute end-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
                   >
                     {showPassword ? <HiEyeSlash className="h-5 w-5" /> : <HiEye className="h-5 w-5" />}
                   </button>
@@ -628,7 +628,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:from-indigo-600 hover:to-violet-700 hover:shadow-xl hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-900"
+                className="w-full cursor-pointer rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:from-indigo-600 hover:to-violet-700 hover:shadow-xl hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-900"
               >
                 {isSubmitting ? t.loading : t.authSubmitLogin}
               </button>
@@ -643,7 +643,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                 <button
                   type="button"
                   onClick={() => setView("login")}
-                  className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                  className="cursor-pointer font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                 >
                   {t.authLogin}
                 </button>
@@ -654,7 +654,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                 <button
                   type="button"
                   onClick={() => setView("register")}
-                  className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                  className="cursor-pointer font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                 >
                   {t.authSignUp}
                 </button>

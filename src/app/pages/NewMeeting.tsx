@@ -31,6 +31,7 @@ import {
   HiLockClosed,
   HiMicrophone,
   HiCloudArrowUp,
+  HiMusicalNote,
 } from "react-icons/hi2";
 
 // Animated loading component
@@ -164,7 +165,7 @@ function UsageLimitBanner({
             <button
               type="button"
               onClick={onSignUp}
-              className="mt-3 inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5"
+              className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5"
             >
               <HiSparkles className="h-4 w-4" />
               {t.authSignUpFree}
@@ -234,7 +235,7 @@ function OutputLanguageSelector({
               type="button"
               onClick={() => onChange(lang.value)}
               disabled={disabled}
-              className={`flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200 ${
+              className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200 ${
                 isSelected
                   ? "bg-linear-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/25"
                   : "border border-zinc-200 bg-white text-zinc-700 hover:border-indigo-300 hover:bg-indigo-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-indigo-600 dark:hover:bg-indigo-950/30"
@@ -254,6 +255,7 @@ function OutputLanguageSelector({
 function ActionButtons({
   canAnalyze,
   canExport,
+  exportLoading,
   onAnalyze,
   onExportWord,
   onExportPdf,
@@ -263,6 +265,7 @@ function ActionButtons({
 }: {
   canAnalyze: boolean;
   canExport: boolean;
+  exportLoading: boolean;
   onAnalyze: () => void;
   onExportWord: () => void;
   onExportPdf: () => void;
@@ -293,19 +296,24 @@ function ActionButtons({
           type="button"
           onClick={onAnalyze}
           disabled={!canAnalyze}
-          className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg dark:focus:ring-offset-zinc-950"
+          className="group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg dark:focus:ring-offset-zinc-950"
         >
           <HiSparkles className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
           {t.analyze}
         </button>
         
-        <div className="export-dropdown">
+        <div className="export-dropdown relative">
           <ExportDropdown
-            disabled={!canExport}
+            disabled={!canExport || exportLoading}
             t={t}
             onExportWord={onExportWord}
             onExportPdf={onExportPdf}
           />
+          {exportLoading && (
+            <span className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-xl bg-white/60 dark:bg-zinc-900/60" aria-hidden="true">
+              <span className="h-5 w-5 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+            </span>
+          )}
         </div>
       </div>
 
@@ -470,7 +478,7 @@ function InputModeToggle({
         type="button"
         onClick={() => onChange("upload")}
         disabled={disabled}
-        className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+        className={`inline-flex items-center gap-2 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
           mode === "upload"
             ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300"
             : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
@@ -486,7 +494,7 @@ function InputModeToggle({
         type="button"
         onClick={() => onChange("record")}
         disabled={disabled}
-        className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+        className={`inline-flex items-center gap-2 cursor-pointer rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
           mode === "record"
             ? "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
             : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
@@ -517,6 +525,7 @@ export function NewMeeting() {
   const [result, setResult] = useState<ApiResult | null>(null);
   const [currentHistoryId, setCurrentHistoryId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [exportLoading, setExportLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("summary");
   const [limitReached, setLimitReached] = useState<{ isRegistered: boolean; limit: number } | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -525,7 +534,7 @@ export function NewMeeting() {
 
   const analyzed = !!result;
   const canAnalyze = !!file && !loading && !limitReached;
-  const canExport = !!file && !loading && analyzed;
+  const canExport = !!file && !loading && analyzed && !exportLoading;
 
   const handleOutputLang = useCallback((value: string) => {
     setOutputLangState(value);
@@ -551,7 +560,7 @@ export function NewMeeting() {
     try {
       const data = await analyzeMeeting(file, outputLang);
       
-      // Increment usage after successful analysis
+      // Usage increments only on successful analysis; export does not count toward limit.
       incrementUsage();
       
       setResult(data);
@@ -593,22 +602,20 @@ export function NewMeeting() {
     async (format: "word" | "pdf") => {
       if (!file) return;
       setError(null);
-      setLoading(true);
-      setStatus(t.exporting);
+      setExportLoading(true);
+      setToast({ type: "success", message: t.exportingDocument });
       const fn = format === "word" ? exportWord : exportPdf;
-      const msg = format === "word" ? t.toastWordDownloaded : t.toastPdfDownloaded;
       try {
         await fn(file, outputLang);
-        setToast({ type: "success", message: msg });
+        setToast({ type: "success", message: t.downloadStarted });
         if (currentHistoryId) markExport(currentHistoryId, format);
       } catch (e) {
         setToast({ type: "error", message: e instanceof Error ? e.message : t.error });
       } finally {
-        setLoading(false);
-        setStatus("");
+        setExportLoading(false);
       }
     },
-    [file, outputLang, currentHistoryId, t.exporting, t.toastWordDownloaded, t.toastPdfDownloaded, t.error, markExport]
+    [file, outputLang, currentHistoryId, t.exportingDocument, t.downloadStarted, t.error, markExport]
   );
 
   // Clear limit message when user registers
@@ -716,9 +723,18 @@ export function NewMeeting() {
         {inputMode === "upload" && (
           <UploadZone 
             onSelect={setFile} 
+            onRemove={file ? () => {
+              setFile(null);
+              setResult(null);
+              setError(null);
+              setCurrentHistoryId(null);
+              setToast(null);
+            } : undefined}
             disabled={loading} 
             hint={t.uploadHint}
             selectedFile={file}
+            removeFileLabel={t.removeFile}
+            clickOrDragToReplaceLabel={t.clickOrDragToReplace}
           />
         )}
         
@@ -741,6 +757,33 @@ export function NewMeeting() {
           />
         )}
       </section>
+
+      {/* Selected file strip (remove when from recording or after upload) */}
+      {file && inputMode === "record" && (
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-zinc-200/60 bg-zinc-50/50 px-4 py-3 dark:border-zinc-700/60 dark:bg-zinc-800/30">
+          <span className="flex min-w-0 items-center gap-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            <HiMusicalNote className="h-4 w-4 shrink-0 text-emerald-500" />
+            <span className="truncate">{file.name}</span>
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              setFile(null);
+              setResult(null);
+              setError(null);
+              setCurrentHistoryId(null);
+              setToast(null);
+            }}
+            className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-red-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 dark:text-zinc-400 dark:hover:bg-red-900/30 dark:hover:text-red-400 dark:focus:ring-red-500"
+            aria-label={t.removeFile}
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            {t.removeFile}
+          </button>
+        </div>
+      )}
 
       {/* Step 2: Language Selection */}
       <section>
@@ -776,6 +819,7 @@ export function NewMeeting() {
             <ActionButtons
               canAnalyze={canAnalyze}
               canExport={canExport}
+              exportLoading={exportLoading}
               onAnalyze={handleAnalyze}
               onExportWord={() => runExport("word")}
               onExportPdf={() => runExport("pdf")}

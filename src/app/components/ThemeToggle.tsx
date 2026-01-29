@@ -51,7 +51,7 @@ export function ThemeToggle({
       disabled={disabled}
       aria-label={ariaLabel}
       aria-pressed={isDark}
-      className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200/50 bg-white/80 backdrop-blur-sm text-zinc-600 transition-all duration-300 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-60 dark:border-zinc-700/50 dark:bg-zinc-800/80 dark:text-zinc-400 dark:hover:border-violet-500/50 dark:hover:bg-violet-900/20 dark:hover:text-violet-400 dark:focus:ring-offset-zinc-950"
+      className="group relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-zinc-200/50 bg-white/80 backdrop-blur-sm text-zinc-600 transition-all duration-300 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-60 dark:border-zinc-700/50 dark:bg-zinc-800/80 dark:text-zinc-400 dark:hover:border-violet-500/50 dark:hover:bg-violet-900/20 dark:hover:text-violet-400 dark:focus:ring-offset-zinc-950"
     >
       <span ref={iconRef} className="flex items-center justify-center">
         {isDark ? (

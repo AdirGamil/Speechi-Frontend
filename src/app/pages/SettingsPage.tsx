@@ -118,7 +118,7 @@ export function SettingsPage() {
                 key={lang.value}
                 type="button"
                 onClick={() => handleOutputLang(lang.value)}
-                className={`flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200 ${
+                className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200 ${
                   isSelected
                     ? "bg-linear-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/25"
                     : "border border-zinc-200 bg-white text-zinc-700 hover:border-indigo-300 hover:bg-indigo-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-indigo-600 dark:hover:bg-indigo-950/30"
@@ -150,7 +150,7 @@ export function SettingsPage() {
           <button
             type="button"
             onClick={() => !isDark || toggleTheme()}
-            className={`flex items-center gap-3 rounded-xl px-5 py-3 text-sm font-medium transition-all duration-200 ${
+            className={`flex cursor-pointer items-center gap-3 rounded-xl px-5 py-3 text-sm font-medium transition-all duration-200 ${
               !isDark
                 ? "bg-linear-to-r from-amber-400 to-orange-500 text-white shadow-md shadow-amber-500/25"
                 : "border border-zinc-200 bg-white text-zinc-700 hover:border-amber-300 hover:bg-amber-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-amber-600/50"
@@ -162,7 +162,7 @@ export function SettingsPage() {
           <button
             type="button"
             onClick={() => isDark || toggleTheme()}
-            className={`flex items-center gap-3 rounded-xl px-5 py-3 text-sm font-medium transition-all duration-200 ${
+            className={`flex cursor-pointer items-center gap-3 rounded-xl px-5 py-3 text-sm font-medium transition-all duration-200 ${
               isDark
                 ? "bg-linear-to-r from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-500/25"
                 : "border border-zinc-200 bg-white text-zinc-700 hover:border-indigo-300 hover:bg-indigo-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
@@ -219,7 +219,7 @@ export function SettingsPage() {
                 type="button"
                 onClick={() => setShowClearModal(true)}
                 disabled={items.length === 0}
-                className="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 transition-all duration-200 hover:bg-red-100 hover:border-red-300 disabled:opacity-50 disabled:cursor-not-allowed dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300 dark:hover:bg-red-900/40"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 transition-all duration-200 hover:bg-red-100 hover:border-red-300 disabled:opacity-50 disabled:cursor-not-allowed dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300 dark:hover:bg-red-900/40"
               >
                 <HiTrash className="h-4 w-4" />
                 {t.clearHistory}

@@ -19,6 +19,7 @@ import {
   useRole,
   useInteractions,
   FloatingFocusManager,
+  FloatingPortal,
   type Placement,
 } from "@floating-ui/react";
 import { useNavigate, usePathname } from "../lib/router";
@@ -163,7 +164,7 @@ export function Navbar({ className = "" }: NavbarProps) {
           onClick={() => navigate("/")}
           onMouseEnter={handleLogoEnter}
           onMouseLeave={handleLogoLeave}
-          className="group relative flex shrink-0 items-center gap-2 text-xl font-bold tracking-tight focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
+          className="group relative flex shrink-0 cursor-pointer items-center gap-2 text-xl font-bold tracking-tight focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
         >
           {/* Logo icon */}
           <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/25 transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-indigo-500/40 sm:h-9 sm:w-9">
@@ -208,7 +209,7 @@ export function Navbar({ className = "" }: NavbarProps) {
               <button
                 ref={refs.setReference}
                 type="button"
-                className="group flex items-center gap-1 rounded-xl border border-zinc-200/50 bg-white/80 px-2 py-1.5 backdrop-blur-sm transition-all duration-200 hover:border-indigo-300 hover:bg-indigo-50 dark:border-zinc-700/50 dark:bg-zinc-800/80 dark:hover:border-indigo-600 dark:hover:bg-indigo-950/30 sm:gap-2 sm:px-3 sm:py-2"
+                className="group flex cursor-pointer items-center gap-1 rounded-xl border border-zinc-200/50 bg-white/80 px-2 py-1.5 backdrop-blur-sm transition-all duration-200 hover:border-indigo-300 hover:bg-indigo-50 dark:border-zinc-700/50 dark:bg-zinc-800/80 dark:hover:border-indigo-600 dark:hover:bg-indigo-950/30 sm:gap-2 sm:px-3 sm:py-2"
                 aria-expanded={showUserMenu}
                 aria-haspopup="true"
                 {...getReferenceProps()}
@@ -225,18 +226,19 @@ export function Navbar({ className = "" }: NavbarProps) {
                 </span>
               </button>
 
-              {/* Dropdown menu with Floating UI */}
+              {/* Dropdown menu with Floating UI (portal for iOS / z-index) */}
               {showUserMenu && (
-                <FloatingFocusManager context={context} modal={false}>
-                  <div
-                    ref={(node) => {
-                      refs.setFloating(node);
-                      dropdownRef.current = node;
-                    }}
-                    style={floatingStyles}
-                    className="z-50 min-w-[180px] rounded-xl border border-zinc-200/60 bg-white/95 py-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/60 dark:bg-zinc-900/95 sm:min-w-[200px]"
-                    {...getFloatingProps()}
-                  >
+                <FloatingPortal root={typeof document !== "undefined" ? document.getElementById("overlay-root") ?? undefined : undefined}>
+                  <FloatingFocusManager context={context} modal={false}>
+                    <div
+                      ref={(node) => {
+                        refs.setFloating(node);
+                        dropdownRef.current = node;
+                      }}
+                      style={{ ...floatingStyles, position: "fixed" }}
+                      className="z-50 min-w-[180px] rounded-xl border border-zinc-200/60 bg-white/95 py-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/60 dark:bg-zinc-900/95 sm:min-w-[200px]"
+                      {...getFloatingProps()}
+                    >
                     {/* User info */}
                     <div className="border-b border-zinc-200/60 px-3 py-2 dark:border-zinc-700/60 sm:px-4 sm:py-3">
                       <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
@@ -250,7 +252,7 @@ export function Navbar({ className = "" }: NavbarProps) {
                       <button
                         type="button"
                         onClick={() => handleNavigation("/app/history")}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
+                        className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
                       >
                         <HiClock className="h-4 w-4 text-zinc-400" />
                         {t.history}
@@ -258,7 +260,7 @@ export function Navbar({ className = "" }: NavbarProps) {
                       <button
                         type="button"
                         onClick={() => handleNavigation("/app/settings")}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
+                        className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:gap-3 sm:px-4 sm:py-2.5"
                       >
                         <HiCog6Tooth className="h-4 w-4 text-zinc-400" />
                         {t.settings}
@@ -270,21 +272,22 @@ export function Navbar({ className = "" }: NavbarProps) {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30 sm:gap-3 sm:px-4 sm:py-2.5"
+                        className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30 sm:gap-3 sm:px-4 sm:py-2.5"
                       >
                         <HiArrowRightOnRectangle className="h-4 w-4" />
                         {t.authLogout}
                       </button>
                     </div>
                   </div>
-                </FloatingFocusManager>
+                  </FloatingFocusManager>
+                </FloatingPortal>
               )}
             </div>
           ) : (
             <button
               type="button"
               onClick={() => setShowAuthModal(true)}
-              className="inline-flex shrink-0 items-center gap-1 rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-md shadow-indigo-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-950 sm:gap-2 sm:px-4 sm:py-2 sm:text-sm"
+              className="inline-flex shrink-0 cursor-pointer items-center gap-1 rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-md shadow-indigo-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-950 sm:gap-2 sm:px-4 sm:py-2 sm:text-sm"
             >
               <HiSparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden xs:inline">{t.authSignUpFree}</span>

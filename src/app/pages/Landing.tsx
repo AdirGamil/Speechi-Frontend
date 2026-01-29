@@ -194,7 +194,7 @@ function FAQItem({ question, answer, isOpen, onToggle }: {
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between gap-4 p-5 text-start focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400 rounded-2xl"
+        className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-2xl p-5 text-start focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400"
         aria-expanded={isOpen}
       >
         <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 sm:text-lg">
@@ -483,14 +483,14 @@ export function Landing() {
               id="hero-cta-primary"
               type="button"
               onClick={scrollToApp}
-              className="btn-primary rounded-2xl px-8 py-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-950 sm:text-lg"
+              className="btn-primary cursor-pointer rounded-2xl px-8 py-4 text-base font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-950 sm:text-lg"
             >
               {copy.hero.ctaPrimary}
             </button>
             <a
               id="hero-cta-secondary"
               href="#how-it-works"
-              className="btn-secondary rounded-2xl border border-zinc-200/60 bg-white/80 backdrop-blur-sm px-8 py-4 text-base font-semibold text-zinc-700 hover:border-indigo-200 hover:bg-indigo-50/50 focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2 dark:border-zinc-700/60 dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:border-violet-700/50 dark:hover:bg-violet-900/20 dark:focus:ring-zinc-500 dark:focus:ring-offset-zinc-950 sm:text-lg"
+              className="btn-secondary cursor-pointer rounded-2xl border border-zinc-200/60 bg-white/80 backdrop-blur-sm px-8 py-4 text-base font-semibold text-zinc-700 hover:border-indigo-200 hover:bg-indigo-50/50 focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2 dark:border-zinc-700/60 dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:border-violet-700/50 dark:hover:bg-violet-900/20 dark:focus:ring-zinc-500 dark:focus:ring-offset-zinc-950 sm:text-lg"
             >
               {copy.hero.ctaSecondary}
             </a>
@@ -796,7 +796,7 @@ export function Landing() {
               <button
                 type="button"
                 onClick={() => navigate("/app")}
-                className="rounded-2xl bg-white px-8 py-4 text-base font-semibold text-indigo-600 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:text-lg"
+                className="cursor-pointer rounded-2xl bg-white px-8 py-4 text-base font-semibold text-indigo-600 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:text-lg"
               >
                 {copy.finalCta.button}
               </button>

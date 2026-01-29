@@ -23,6 +23,7 @@ import {
   useRole,
   useInteractions,
   FloatingFocusManager,
+  FloatingPortal,
   type Placement,
 } from "@floating-ui/react";
 import { HiChevronDown, HiArrowDownTray, HiDocumentText } from "react-icons/hi2";
@@ -120,7 +121,7 @@ export function ExportDropdown({ disabled, t, onExportWord, onExportPdf }: Expor
         aria-haspopup="true"
         aria-controls="export-menu"
         id="export-button"
-        className="group inline-flex items-center gap-1.5 rounded-xl border border-zinc-200/60 bg-white/80 px-3 py-2 text-sm font-medium text-zinc-700 backdrop-blur-sm transition-all duration-200 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-zinc-200/60 disabled:hover:bg-white/80 disabled:hover:text-zinc-700 disabled:hover:shadow-none dark:border-zinc-700/60 dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:border-indigo-600 dark:hover:bg-indigo-950/30 dark:hover:text-indigo-400 dark:focus:ring-offset-zinc-950 sm:gap-2 sm:px-5 sm:py-3"
+        className="group inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-zinc-200/60 bg-white/80 px-3 py-2 text-sm font-medium text-zinc-700 backdrop-blur-sm transition-all duration-200 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-zinc-200/60 disabled:hover:bg-white/80 disabled:hover:text-zinc-700 disabled:hover:shadow-none dark:border-zinc-700/60 dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:border-indigo-600 dark:hover:bg-indigo-950/30 dark:hover:text-indigo-400 dark:focus:ring-offset-zinc-950 sm:gap-2 sm:px-5 sm:py-3"
         {...getReferenceProps()}
       >
         <HiArrowDownTray className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-110" />
@@ -131,24 +132,25 @@ export function ExportDropdown({ disabled, t, onExportWord, onExportPdf }: Expor
       </button>
 
       {isOpen && (
-        <FloatingFocusManager context={context} modal={false}>
-          <div
-            ref={(node) => {
-              refs.setFloating(node);
-              menuRef.current = node;
-            }}
-            id="export-menu"
-            role="menu"
-            aria-labelledby="export-button"
-            style={floatingStyles}
-            className="z-40 min-w-[200px] rounded-xl border border-zinc-200/60 bg-white/95 py-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/60 dark:bg-zinc-800/95 sm:min-w-[220px]"
-            {...getFloatingProps()}
-          >
+        <FloatingPortal root={typeof document !== "undefined" ? document.getElementById("overlay-root") ?? undefined : undefined}>
+          <FloatingFocusManager context={context} modal={false}>
+            <div
+              ref={(node) => {
+                refs.setFloating(node);
+                menuRef.current = node;
+              }}
+              id="export-menu"
+              role="menu"
+              aria-labelledby="export-button"
+              style={{ ...floatingStyles, position: "fixed" }}
+              className="z-50 min-w-[200px] rounded-xl border border-zinc-200/60 bg-white/95 py-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/60 dark:bg-zinc-800/95 sm:min-w-[220px]"
+              {...getFloatingProps()}
+            >
             <button
               type="button"
               role="menuitem"
               onClick={handleWord}
-              className="group flex w-full items-center gap-2 px-3 py-2 text-start text-sm text-zinc-700 transition-all duration-200 hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none dark:text-zinc-200 dark:hover:bg-indigo-950/30 dark:focus:bg-indigo-950/30 sm:gap-3 sm:px-4 sm:py-3"
+              className="group flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-start text-sm text-zinc-700 transition-all duration-200 hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none dark:text-zinc-200 dark:hover:bg-indigo-950/30 dark:focus:bg-indigo-950/30 sm:gap-3 sm:px-4 sm:py-3"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600 transition-transform duration-200 group-hover:scale-110 dark:bg-blue-900/40 dark:text-blue-400 sm:h-9 sm:w-9">
                 <HiDocumentText className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -164,7 +166,7 @@ export function ExportDropdown({ disabled, t, onExportWord, onExportPdf }: Expor
                 type="button"
                 role="menuitem"
                 onClick={handlePdf}
-                className="group flex w-full items-center gap-2 px-3 py-2 text-start text-sm text-zinc-700 transition-all duration-200 hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none dark:text-zinc-200 dark:hover:bg-indigo-950/30 dark:focus:bg-indigo-950/30 sm:gap-3 sm:px-4 sm:py-3"
+                className="group flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-start text-sm text-zinc-700 transition-all duration-200 hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none dark:text-zinc-200 dark:hover:bg-indigo-950/30 dark:focus:bg-indigo-950/30 sm:gap-3 sm:px-4 sm:py-3"
               >
                 <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-100 text-red-600 transition-transform duration-200 group-hover:scale-110 dark:bg-red-900/40 dark:text-red-400 sm:h-9 sm:w-9">
                   <HiDocumentText className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -175,8 +177,9 @@ export function ExportDropdown({ disabled, t, onExportWord, onExportPdf }: Expor
                 </div>
               </button>
             )}
-          </div>
-        </FloatingFocusManager>
+            </div>
+          </FloatingFocusManager>
+        </FloatingPortal>
       )}
     </div>
   );

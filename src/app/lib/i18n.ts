@@ -80,10 +80,14 @@ export interface I18nStrings {
   // Common
   loading: string;
   exporting: string;
+  exportingDocument: string;
+  downloadStarted: string;
   done: string;
   error: string;
   toastWordDownloaded: string;
   toastPdfDownloaded: string;
+  removeFile: string;
+  clickOrDragToReplace: string;
   light: string;
   dark: string;
   // Auth
@@ -236,6 +240,10 @@ const I18N: Record<UiLang, I18nStrings> = {
     clearHistoryConfirmBody: "All meeting history will be removed from this device.",
     loading: "Processing…",
     exporting: "Exporting…",
+    exportingDocument: "Exporting document…",
+    downloadStarted: "Download started",
+    removeFile: "Remove file",
+    clickOrDragToReplace: "Click or drag to replace",
     done: "Done",
     error: "Something went wrong",
     toastWordDownloaded: "Your Word summary is downloading",
@@ -389,6 +397,10 @@ const I18N: Record<UiLang, I18nStrings> = {
     clearHistoryConfirmBody: "כל היסטוריית הפגישות תוסר מהמכשיר.",
     loading: "מעבד…",
     exporting: "מייצא…",
+    exportingDocument: "מייצא מסמך…",
+    downloadStarted: "ההורדה החלה",
+    removeFile: "הסר קובץ",
+    clickOrDragToReplace: "לחץ או גרור להחלפה",
     done: "הושלם",
     error: "משהו השתבש",
     toastWordDownloaded: "סיכום ה-Word שלך מורד",
@@ -542,6 +554,10 @@ const I18N: Record<UiLang, I18nStrings> = {
     clearHistoryConfirmBody: "Tout l'historique des réunions sera supprimé de cet appareil.",
     loading: "Traitement…",
     exporting: "Exportation…",
+    exportingDocument: "Exportation du document…",
+    downloadStarted: "Téléchargement démarré",
+    removeFile: "Supprimer le fichier",
+    clickOrDragToReplace: "Cliquez ou glissez pour remplacer",
     done: "Terminé",
     error: "Une erreur s'est produite",
     toastWordDownloaded: "Votre résumé Word est en cours de téléchargement",
@@ -695,6 +711,10 @@ const I18N: Record<UiLang, I18nStrings> = {
     clearHistoryConfirmBody: "Todo el historial de reuniones se eliminará de este dispositivo.",
     loading: "Procesando…",
     exporting: "Exportando…",
+    exportingDocument: "Exportando documento…",
+    downloadStarted: "Descarga iniciada",
+    removeFile: "Quitar archivo",
+    clickOrDragToReplace: "Haz clic o arrastra para reemplazar",
     done: "Hecho",
     error: "Algo salió mal",
     toastWordDownloaded: "Tu resumen Word se está descargando",
@@ -848,6 +868,10 @@ const I18N: Record<UiLang, I18nStrings> = {
     clearHistoryConfirmBody: "ستُزال كل سجلات الاجتماعات من هذا الجهاز.",
     loading: "جاري المعالجة…",
     exporting: "جاري التصدير…",
+    exportingDocument: "جاري تصدير المستند…",
+    downloadStarted: "بدأ التنزيل",
+    removeFile: "إزالة الملف",
+    clickOrDragToReplace: "انقر أو اسحب للاستبدال",
     done: "تم",
     error: "حدث خطأ",
     toastWordDownloaded: "ملخص Word قيد التنزيل",

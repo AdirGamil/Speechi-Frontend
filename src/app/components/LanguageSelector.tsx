@@ -24,6 +24,7 @@ import {
   useInteractions,
   useListNavigation,
   FloatingFocusManager,
+  FloatingPortal,
   type Placement,
 } from "@floating-ui/react";
 import { HiChevronDown } from "react-icons/hi2";
@@ -142,7 +143,7 @@ export function LanguageSelector({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-label={ariaLabel}
-        className="group inline-flex items-center gap-1 rounded-xl border border-zinc-200/50 bg-white/80 px-2 py-1.5 text-sm font-medium text-zinc-700 backdrop-blur-sm transition-all duration-300 hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-60 dark:border-zinc-700/50 dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:border-violet-500/50 dark:hover:bg-violet-900/20 dark:focus:ring-violet-500 sm:gap-2 sm:px-3 sm:py-2"
+        className="group inline-flex cursor-pointer items-center gap-1 rounded-xl border border-zinc-200/50 bg-white/80 px-2 py-1.5 text-sm font-medium text-zinc-700 backdrop-blur-sm transition-all duration-300 hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-60 dark:border-zinc-700/50 dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:border-violet-500/50 dark:hover:bg-violet-900/20 dark:focus:ring-violet-500 sm:gap-2 sm:px-3 sm:py-2"
         {...getReferenceProps()}
       >
         <span className="text-base leading-none">{current.flag}</span>
@@ -153,18 +154,19 @@ export function LanguageSelector({
       </button>
       
       {isOpen && (
-        <FloatingFocusManager context={context} modal={false}>
-          <ul
-            ref={(node) => {
-              refs.setFloating(node);
-              dropdownRef.current = node;
-            }}
-            role="listbox"
-            aria-activedescendant={activeIndex != null ? `lang-option-${OPTIONS[activeIndex].value}` : undefined}
-            style={floatingStyles}
-            className="z-50 min-w-[160px] rounded-xl border border-zinc-200/50 bg-white/95 py-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/50 dark:bg-zinc-900/95 sm:min-w-[180px]"
-            {...getFloatingProps()}
-          >
+        <FloatingPortal root={typeof document !== "undefined" ? document.getElementById("overlay-root") ?? undefined : undefined}>
+          <FloatingFocusManager context={context} modal={false}>
+            <ul
+              ref={(node) => {
+                refs.setFloating(node);
+                dropdownRef.current = node;
+              }}
+              role="listbox"
+              aria-activedescendant={activeIndex != null ? `lang-option-${OPTIONS[activeIndex].value}` : undefined}
+              style={{ ...floatingStyles, position: "fixed" }}
+              className="z-50 min-w-[160px] rounded-xl border border-zinc-200/50 bg-white/95 py-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/50 dark:bg-zinc-900/95 sm:min-w-[180px]"
+              {...getFloatingProps()}
+            >
             {OPTIONS.map((o, index) => {
               const selected = o.value === value;
               const isActive = activeIndex === index;
@@ -211,8 +213,9 @@ export function LanguageSelector({
                 </li>
               );
             })}
-          </ul>
-        </FloatingFocusManager>
+            </ul>
+          </FloatingFocusManager>
+        </FloatingPortal>
       )}
     </div>
   );

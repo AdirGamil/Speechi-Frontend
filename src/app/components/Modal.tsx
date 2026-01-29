@@ -81,7 +81,7 @@ export function Modal({
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex cursor-pointer items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -89,7 +89,7 @@ export function Modal({
     >
       <div
         ref={modalRef}
-        className="w-full max-w-md rounded-2xl border border-zinc-200/60 bg-white/95 p-6 shadow-2xl backdrop-blur-xl dark:border-zinc-800/60 dark:bg-zinc-900/95"
+        className="w-full max-w-md cursor-default rounded-2xl border border-zinc-200/60 bg-white/95 p-6 shadow-2xl backdrop-blur-xl dark:border-zinc-800/60 dark:bg-zinc-900/95"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -117,7 +117,7 @@ export function Modal({
           <button
             type="button"
             onClick={handleClose}
-            className="rounded-xl border border-zinc-200 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 transition-all duration-200 hover:bg-zinc-50 hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+            className="cursor-pointer rounded-xl border border-zinc-200 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 transition-all duration-200 hover:bg-zinc-50 hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
           >
             {cancelLabel}
           </button>
@@ -125,7 +125,7 @@ export function Modal({
             type="button"
             onClick={onConfirm}
             className={
-              "rounded-xl px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 " +
+              "cursor-pointer rounded-xl px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 " +
               (confirmDanger
                 ? "bg-linear-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-lg shadow-red-500/25 focus:ring-red-500"
                 : "bg-linear-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 shadow-lg shadow-indigo-500/25 focus:ring-indigo-400")

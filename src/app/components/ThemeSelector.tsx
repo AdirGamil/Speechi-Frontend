@@ -22,7 +22,7 @@ export function ThemeSelector({ theme, setTheme, t, disabled }: ThemeSelectorPro
           disabled={disabled}
           aria-pressed={theme === opt}
           className={
-            "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-60 dark:focus:ring-offset-zinc-950 " +
+            "cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-60 dark:focus:ring-offset-zinc-950 " +
             (theme === opt
               ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400"
               : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100")

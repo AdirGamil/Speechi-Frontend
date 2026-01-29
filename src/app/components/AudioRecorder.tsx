@@ -251,7 +251,7 @@ export function AudioRecorder({ onRecordingComplete, onCancel, disabled, t }: Au
               type="button"
               onClick={startRecording}
               disabled={disabled}
-              className="group relative mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-red-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative mx-auto flex h-20 w-20 cursor-pointer items-center justify-center rounded-full bg-linear-to-br from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-red-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <HiMicrophone className="h-8 w-8" />
               <span className="absolute inset-0 rounded-full bg-white/20 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -274,7 +274,7 @@ export function AudioRecorder({ onRecordingComplete, onCancel, disabled, t }: Au
               <button
                 type="button"
                 onClick={stopRecording}
-                className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/30"
+                className="relative z-10 flex h-20 w-20 cursor-pointer items-center justify-center rounded-full bg-linear-to-br from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/30"
               >
                 <HiStop className="h-8 w-8" />
               </button>
@@ -303,7 +303,7 @@ export function AudioRecorder({ onRecordingComplete, onCancel, disabled, t }: Au
               <button
                 type="button"
                 onClick={togglePlayback}
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-zinc-100 text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
               >
                 {isPlaying ? (
                   <HiPause className="h-6 w-6" />
@@ -327,7 +327,7 @@ export function AudioRecorder({ onRecordingComplete, onCancel, disabled, t }: Au
               <button
                 type="button"
                 onClick={deleteRecording}
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                className="inline-flex items-center cursor-pointer gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               >
                 <HiTrash className="h-4 w-4" />
                 {t.deleteRecording}
@@ -336,9 +336,10 @@ export function AudioRecorder({ onRecordingComplete, onCancel, disabled, t }: Au
                 type="button"
                 onClick={useRecording}
                 disabled={disabled}
-                className="inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-emerald-500 to-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-emerald-500/25 transition-all hover:shadow-lg hover:shadow-emerald-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 px-5 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-lg dark:focus:ring-offset-zinc-950"
+                aria-label={t.useRecording}
               >
-                <HiCheck className="h-4 w-4" />
+                <HiCheck className="h-5 w-5" />
                 {t.useRecording}
               </button>
             </div>

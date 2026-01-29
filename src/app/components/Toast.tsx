@@ -94,7 +94,7 @@ export function Toast({ type, message, onDismiss, duration = 5000 }: ToastProps)
       <button
         type="button"
         onClick={handleDismiss}
-        className={`shrink-0 rounded-lg p-1.5 transition-colors duration-200 ${
+        className={`shrink-0 cursor-pointer rounded-lg p-1.5 transition-colors duration-200 ${
           isSuccess
             ? "text-emerald-600 hover:bg-emerald-100 dark:text-emerald-400 dark:hover:bg-emerald-900/50"
             : "text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/50"

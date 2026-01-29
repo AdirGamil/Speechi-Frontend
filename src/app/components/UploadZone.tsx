@@ -12,12 +12,15 @@ import { HiCloudArrowUp, HiMusicalNote, HiCheckCircle } from "react-icons/hi2";
 interface UploadZoneProps {
   accept?: string;
   onSelect: (file: File) => void;
+  onRemove?: () => void;
   disabled?: boolean;
   hint: string;
   selectedFile?: File | null;
+  removeFileLabel?: string;
+  clickOrDragToReplaceLabel?: string;
 }
 
-export function UploadZone({ accept = ACCEPT_AUDIO, onSelect, disabled, hint, selectedFile }: UploadZoneProps) {
+export function UploadZone({ accept = ACCEPT_AUDIO, onSelect, onRemove, disabled, hint, selectedFile, removeFileLabel = "Remove file", clickOrDragToReplaceLabel = "Click or drag to replace" }: UploadZoneProps) {
   const [over, setOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const zoneRef = useRef<HTMLLabelElement>(null);
@@ -157,14 +160,31 @@ export function UploadZone({ accept = ACCEPT_AUDIO, onSelect, disabled, hint, se
             </span>
             <div className="space-y-1">
               <p className="flex items-center justify-center gap-2 font-medium text-zinc-800 dark:text-zinc-200">
-                <HiMusicalNote className="h-4 w-4 text-emerald-500" />
-                {selectedFile.name}
+                <HiMusicalNote className="h-4 w-4 shrink-0 text-emerald-500" />
+                <span className="min-w-0 truncate">{selectedFile.name}</span>
+                {onRemove && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onRemove();
+                    }}
+                    className="shrink-0 cursor-pointer rounded-lg p-1.5 text-zinc-400 transition-colors hover:bg-red-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 dark:hover:bg-red-900/30 dark:hover:text-red-400 dark:focus:ring-red-500"
+                    aria-label={removeFileLabel}
+                    title={removeFileLabel}
+                  >
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
               </p>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
                 {formatFileSize(selectedFile.size)}
               </p>
               <p className="text-xs text-indigo-600 dark:text-indigo-400">
-                Click or drag to replace
+                {clickOrDragToReplaceLabel}
               </p>
             </div>
           </>
