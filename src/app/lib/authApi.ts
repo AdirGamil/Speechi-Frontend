@@ -179,8 +179,8 @@ async function authFetch<T>(
   const response = await fetch(url, {
     ...options,
     headers,
-    // Omit credentials for cross-origin so behavior matches signup and CORS is consistent
-    credentials: skipAuth ? "omit" : "same-origin",
+    // Must match backend allow_credentials=True for CORS preflight and response
+    credentials: "include",
   });
   
   if (!response.ok) {
