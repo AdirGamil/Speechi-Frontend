@@ -1,12 +1,12 @@
 /**
- * AuthModal: Combined login/register modal.
- * No password, no backend - this is a product simulation.
+ * AuthModal: Combined login/register modal with real authentication.
  * 
  * Features:
- * - Register: name + email
- * - Login: email only (matches stored user)
+ * - Register: firstName, lastName, email, password, confirmPassword
+ * - Login: email, password
  * - Fully i18n compliant
  * - Centered, accessible modal with GSAP animations
+ * - Guest meeting migration on register
  * 
  * Layout:
  * - Fixed full-screen overlay (inset-0)
@@ -17,8 +17,17 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import gsap from "gsap";
-import { HiSparkles, HiXMark, HiUser, HiEnvelope, HiCheckCircle } from "react-icons/hi2";
-import { useAuthContext, isValidEmail } from "../context/AuthContext";
+import { 
+  HiSparkles, 
+  HiXMark, 
+  HiUser, 
+  HiEnvelope, 
+  HiCheckCircle,
+  HiLockClosed,
+  HiEye,
+  HiEyeSlash,
+} from "react-icons/hi2";
+import { useAuthContext, isValidEmail, type RegisterPayload, type LoginPayload } from "../context/AuthContext";
 import { useI18n } from "../hooks/useI18n";
 
 type AuthView = "register" | "login";
@@ -30,14 +39,28 @@ interface AuthModalProps {
   initialView?: AuthView;
 }
 
+interface FormErrors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  general?: string;
+}
+
 export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register" }: AuthModalProps) {
   const { register, login } = useAuthContext();
   const { t } = useI18n();
   
   const [view, setView] = useState<AuthView>(initialView);
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -47,15 +70,22 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
   // Reset form when view changes
   useEffect(() => {
     setErrors({});
+    setPassword("");
+    setConfirmPassword("");
   }, [view]);
 
   // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
       setView(initialView);
-      setName("");
+      setFirstName("");
+      setLastName("");
       setEmail("");
+      setPassword("");
+      setConfirmPassword("");
       setErrors({});
+      setShowPassword(false);
+      setShowConfirmPassword(false);
     }
   }, [isOpen, initialView]);
 
@@ -113,12 +143,18 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
   }, [onClose]);
 
   const validateRegister = useCallback((): boolean => {
-    const newErrors: { name?: string; email?: string } = {};
+    const newErrors: FormErrors = {};
 
-    if (!name.trim()) {
-      newErrors.name = t.authErrorNameRequired;
-    } else if (name.trim().length < 2) {
-      newErrors.name = t.authErrorNameMin;
+    if (!firstName.trim()) {
+      newErrors.firstName = t.authErrorFirstNameRequired;
+    } else if (firstName.trim().length < 2) {
+      newErrors.firstName = t.authErrorNameMin;
+    }
+
+    if (!lastName.trim()) {
+      newErrors.lastName = t.authErrorLastNameRequired;
+    } else if (lastName.trim().length < 2) {
+      newErrors.lastName = t.authErrorNameMin;
     }
 
     if (!email.trim()) {
@@ -127,12 +163,24 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
       newErrors.email = t.authErrorEmailInvalid;
     }
 
+    if (!password) {
+      newErrors.password = t.authErrorPasswordRequired;
+    } else if (password.length < 6) {
+      newErrors.password = t.authErrorPasswordMin;
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = t.authErrorConfirmPasswordRequired;
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = t.authErrorPasswordsNoMatch;
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }, [name, email, t]);
+  }, [firstName, lastName, email, password, confirmPassword, t]);
 
   const validateLogin = useCallback((): boolean => {
-    const newErrors: { email?: string } = {};
+    const newErrors: FormErrors = {};
 
     if (!email.trim()) {
       newErrors.email = t.authErrorEmailRequired;
@@ -140,57 +188,84 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
       newErrors.email = t.authErrorEmailInvalid;
     }
 
+    if (!password) {
+      newErrors.password = t.authErrorPasswordRequired;
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }, [email, t]);
+  }, [email, password, t]);
 
   const handleRegister = useCallback(
-    (e: React.FormEvent) => {
+    async (e: React.FormEvent) => {
       e.preventDefault();
       
       if (!validateRegister()) return;
 
       setIsSubmitting(true);
+      setErrors({});
       
-      // Simulate a brief delay for UX
-      setTimeout(() => {
-        register(name.trim(), email.trim());
+      try {
+        const payload: RegisterPayload = {
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          email: email.trim(),
+          password,
+          confirmPassword,
+        };
+        
+        const result = await register(payload);
+        
+        if (result.success) {
+          onSuccess?.();
+          handleClose();
+        } else {
+          setErrors({ general: result.error || t.authErrorGeneral });
+        }
+      } catch (e) {
+        setErrors({ general: t.authErrorGeneral });
+      } finally {
         setIsSubmitting(false);
-        setName("");
-        setEmail("");
-        setErrors({});
-        onSuccess?.();
-        handleClose();
-      }, 300);
+      }
     },
-    [name, email, validateRegister, register, onSuccess, handleClose]
+    [firstName, lastName, email, password, confirmPassword, validateRegister, register, onSuccess, handleClose, t]
   );
 
   const handleLogin = useCallback(
-    (e: React.FormEvent) => {
+    async (e: React.FormEvent) => {
       e.preventDefault();
       
       if (!validateLogin()) return;
 
       setIsSubmitting(true);
+      setErrors({});
       
-      // Simulate a brief delay for UX
-      setTimeout(() => {
-        const result = login(email.trim());
-        setIsSubmitting(false);
+      try {
+        const payload: LoginPayload = {
+          email: email.trim(),
+          password,
+        };
+        
+        const result = await login(payload);
         
         if (result.success) {
-          setEmail("");
-          setErrors({});
           onSuccess?.();
           handleClose();
         } else {
-          setErrors({ email: t.authErrorUserNotFound });
+          setErrors({ general: result.error || t.authErrorInvalidCredentials });
         }
-      }, 300);
+      } catch (e) {
+        setErrors({ general: t.authErrorGeneral });
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    [email, validateLogin, login, onSuccess, handleClose, t]
+    [email, password, validateLogin, login, onSuccess, handleClose, t]
   );
+
+  const clearFieldError = useCallback((field: keyof FormErrors) => {
+    setErrors((prev) => ({ ...prev, [field]: undefined, general: undefined }));
+  }, []);
 
   if (!isOpen) return null;
 
@@ -238,6 +313,13 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
 
         {/* Content */}
         <div className="p-6">
+          {/* General error */}
+          {errors.general && (
+            <div className="mb-4 rounded-xl border border-red-200/60 bg-red-50/50 p-3 dark:border-red-800/40 dark:bg-red-950/20">
+              <p className="text-sm text-red-700 dark:text-red-400">{errors.general}</p>
+            </div>
+          )}
+
           {/* Benefits (only for register view) */}
           {view === "register" && (
             <div className="mb-6 rounded-xl border border-emerald-200/60 bg-emerald-50/50 p-4 dark:border-emerald-800/40 dark:bg-emerald-950/20">
@@ -264,43 +346,80 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
           {/* Register Form */}
           {view === "register" && (
             <form onSubmit={handleRegister}>
-              {/* Name field */}
-              <div className="mb-4">
-                <label
-                  htmlFor="auth-name"
-                  className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                >
-                  {t.authName}
-                </label>
-                <div className="relative">
-                  <span className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-400">
-                    <HiUser className="h-5 w-5" />
-                  </span>
-                  <input
-                    ref={firstInputRef}
-                    id="auth-name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                      if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
-                    }}
-                    placeholder={t.authNamePlaceholder}
-                    className={`w-full rounded-xl border bg-white py-3 pe-4 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
-                      errors.name
-                        ? "border-red-300 focus:border-red-400 focus:ring-red-400/30 dark:border-red-700"
-                        : "border-zinc-200 focus:border-indigo-400 focus:ring-indigo-400/30 dark:border-zinc-700"
-                    }`}
-                    autoComplete="name"
-                  />
+              {/* Name fields row */}
+              <div className="mb-4 grid grid-cols-2 gap-3">
+                {/* First Name */}
+                <div>
+                  <label
+                    htmlFor="auth-firstName"
+                    className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  >
+                    {t.authFirstName}
+                  </label>
+                  <div className="relative">
+                    <span className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-400">
+                      <HiUser className="h-5 w-5" />
+                    </span>
+                    <input
+                      ref={firstInputRef}
+                      id="auth-firstName"
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => {
+                        setFirstName(e.target.value);
+                        clearFieldError("firstName");
+                      }}
+                      placeholder={t.authFirstNamePlaceholder}
+                      className={`w-full rounded-xl border bg-white py-3 pe-4 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
+                        errors.firstName
+                          ? "border-red-300 focus:border-red-400 focus:ring-red-400/30 dark:border-red-700"
+                          : "border-zinc-200 focus:border-indigo-400 focus:ring-indigo-400/30 dark:border-zinc-700"
+                      }`}
+                      autoComplete="given-name"
+                    />
+                  </div>
+                  {errors.firstName && (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.firstName}</p>
+                  )}
                 </div>
-                {errors.name && (
-                  <p className="mt-1.5 text-sm text-red-600 dark:text-red-400">{errors.name}</p>
-                )}
+
+                {/* Last Name */}
+                <div>
+                  <label
+                    htmlFor="auth-lastName"
+                    className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  >
+                    {t.authLastName}
+                  </label>
+                  <div className="relative">
+                    <span className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-400">
+                      <HiUser className="h-5 w-5" />
+                    </span>
+                    <input
+                      id="auth-lastName"
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => {
+                        setLastName(e.target.value);
+                        clearFieldError("lastName");
+                      }}
+                      placeholder={t.authLastNamePlaceholder}
+                      className={`w-full rounded-xl border bg-white py-3 pe-4 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
+                        errors.lastName
+                          ? "border-red-300 focus:border-red-400 focus:ring-red-400/30 dark:border-red-700"
+                          : "border-zinc-200 focus:border-indigo-400 focus:ring-indigo-400/30 dark:border-zinc-700"
+                      }`}
+                      autoComplete="family-name"
+                    />
+                  </div>
+                  {errors.lastName && (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.lastName}</p>
+                  )}
+                </div>
               </div>
 
               {/* Email field */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <label
                   htmlFor="auth-email-register"
                   className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
@@ -317,7 +436,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+                      clearFieldError("email");
                     }}
                     placeholder={t.authEmailPlaceholder}
                     className={`w-full rounded-xl border bg-white py-3 pe-4 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
@@ -333,13 +452,95 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                 )}
               </div>
 
+              {/* Password field */}
+              <div className="mb-4">
+                <label
+                  htmlFor="auth-password-register"
+                  className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                >
+                  {t.authPassword}
+                </label>
+                <div className="relative">
+                  <span className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-400">
+                    <HiLockClosed className="h-5 w-5" />
+                  </span>
+                  <input
+                    id="auth-password-register"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      clearFieldError("password");
+                    }}
+                    placeholder={t.authPasswordPlaceholder}
+                    className={`w-full rounded-xl border bg-white py-3 pe-12 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
+                      errors.password
+                        ? "border-red-300 focus:border-red-400 focus:ring-red-400/30 dark:border-red-700"
+                        : "border-zinc-200 focus:border-indigo-400 focus:ring-indigo-400/30 dark:border-zinc-700"
+                    }`}
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute end-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                  >
+                    {showPassword ? <HiEyeSlash className="h-5 w-5" /> : <HiEye className="h-5 w-5" />}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="mt-1.5 text-sm text-red-600 dark:text-red-400">{errors.password}</p>
+                )}
+              </div>
+
+              {/* Confirm Password field */}
+              <div className="mb-6">
+                <label
+                  htmlFor="auth-confirmPassword"
+                  className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                >
+                  {t.authConfirmPassword}
+                </label>
+                <div className="relative">
+                  <span className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-400">
+                    <HiLockClosed className="h-5 w-5" />
+                  </span>
+                  <input
+                    id="auth-confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                      clearFieldError("confirmPassword");
+                    }}
+                    placeholder={t.authConfirmPasswordPlaceholder}
+                    className={`w-full rounded-xl border bg-white py-3 pe-12 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
+                      errors.confirmPassword
+                        ? "border-red-300 focus:border-red-400 focus:ring-red-400/30 dark:border-red-700"
+                        : "border-zinc-200 focus:border-indigo-400 focus:ring-indigo-400/30 dark:border-zinc-700"
+                    }`}
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute end-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                  >
+                    {showConfirmPassword ? <HiEyeSlash className="h-5 w-5" /> : <HiEye className="h-5 w-5" />}
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <p className="mt-1.5 text-sm text-red-600 dark:text-red-400">{errors.confirmPassword}</p>
+                )}
+              </div>
+
               {/* Submit button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:from-indigo-600 hover:to-violet-700 hover:shadow-xl hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-900"
               >
-                {isSubmitting ? "..." : t.authSubmitRegister}
+                {isSubmitting ? t.loading : t.authSubmitRegister}
               </button>
             </form>
           )}
@@ -348,7 +549,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
           {view === "login" && (
             <form onSubmit={handleLogin}>
               {/* Email field */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <label
                   htmlFor="auth-email-login"
                   className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
@@ -366,7 +567,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+                      clearFieldError("email");
                     }}
                     placeholder={t.authEmailPlaceholder}
                     className={`w-full rounded-xl border bg-white py-3 pe-4 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
@@ -382,13 +583,54 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
                 )}
               </div>
 
+              {/* Password field */}
+              <div className="mb-6">
+                <label
+                  htmlFor="auth-password-login"
+                  className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                >
+                  {t.authPassword}
+                </label>
+                <div className="relative">
+                  <span className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-400">
+                    <HiLockClosed className="h-5 w-5" />
+                  </span>
+                  <input
+                    id="auth-password-login"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      clearFieldError("password");
+                    }}
+                    placeholder={t.authPasswordPlaceholder}
+                    className={`w-full rounded-xl border bg-white py-3 pe-12 ps-10 text-base text-zinc-800 placeholder-zinc-400 transition-all duration-200 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 ${
+                      errors.password
+                        ? "border-red-300 focus:border-red-400 focus:ring-red-400/30 dark:border-red-700"
+                        : "border-zinc-200 focus:border-indigo-400 focus:ring-indigo-400/30 dark:border-zinc-700"
+                    }`}
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute end-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                  >
+                    {showPassword ? <HiEyeSlash className="h-5 w-5" /> : <HiEye className="h-5 w-5" />}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="mt-1.5 text-sm text-red-600 dark:text-red-400">{errors.password}</p>
+                )}
+              </div>
+
               {/* Submit button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-600 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:from-indigo-600 hover:to-violet-700 hover:shadow-xl hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed dark:focus:ring-offset-zinc-900"
               >
-                {isSubmitting ? "..." : t.authSubmitLogin}
+                {isSubmitting ? t.loading : t.authSubmitLogin}
               </button>
             </form>
           )}
@@ -422,7 +664,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialView = "register"
 
           {/* Privacy note */}
           <p className="mt-4 text-center text-xs text-zinc-500 dark:text-zinc-400">
-            {t.authPrivacyNote}
+            {t.authSecurityNote}
           </p>
         </div>
       </div>

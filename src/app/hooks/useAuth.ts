@@ -5,4 +5,4 @@
  */
 
 export { useAuthContext as useAuth, isValidEmail } from "../context/AuthContext";
-export type { AuthUser, LoginResult } from "../context/AuthContext";
+export type { AuthUser, AuthResult } from "../context/AuthContext";

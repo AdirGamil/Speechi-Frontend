@@ -9,10 +9,16 @@
  * - Development: http://127.0.0.1:8000/api
  * - Production: https://speechi-api.adirg.dev (or your API domain)
  * 
+ * Authentication:
+ * - For authenticated users, includes Bearer token in requests
+ * - Token is retrieved from authApi module
+ * 
  * IMPORTANT: The URL must match your backend's API_PREFIX configuration.
  * If backend has API_PREFIX=/api, use http://host:port/api
  * If backend has API_PREFIX="" (empty), use http://host:port
  */
+
+import { getToken } from "./authApi";
 
 // ===========================================
 // Configuration
@@ -113,6 +119,7 @@ function parseErrorResponse(text: string, status: number): ApiError {
 /**
  * Generic fetch wrapper with error handling.
  * All API calls MUST go through this function.
+ * Automatically includes auth token if available.
  */
 async function apiFetch<T>(
   endpoint: string,
@@ -124,11 +131,19 @@ async function apiFetch<T>(
     console.log(`[Speechi API] ${options?.method || "GET"} ${url}`);
   }
   
+  // Build headers with optional auth token
+  const headers: Record<string, string> = {
+    ...(options?.headers as Record<string, string>),
+  };
+  
+  const token = getToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  
   const response = await fetch(url, {
     ...options,
-    headers: {
-      ...options?.headers,
-    },
+    headers,
   });
   
   if (!response.ok) {
@@ -142,6 +157,7 @@ async function apiFetch<T>(
 
 /**
  * Fetch that returns a Blob (for file downloads).
+ * Automatically includes auth token if available.
  */
 async function apiFetchBlob(
   endpoint: string,
@@ -153,7 +169,20 @@ async function apiFetchBlob(
     console.log(`[Speechi API] ${options?.method || "GET"} ${url} (blob)`);
   }
   
-  const response = await fetch(url, options);
+  // Build headers with optional auth token
+  const headers: Record<string, string> = {
+    ...(options?.headers as Record<string, string>),
+  };
+  
+  const token = getToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
   
   if (!response.ok) {
     const text = await response.text();

@@ -1,15 +1,15 @@
 /**
  * AuthContext: Global authentication and usage state management.
  * 
- * Provides:
- * - User authentication state (login, register, logout)
- * - Usage tracking (used/limit per day)
- * - All state updates are reactive - no refresh needed
+ * Supports two user types:
+ * 1. Guest: Data stored in LocalStorage, 1 analysis/day
+ * 2. Registered: Data stored in MongoDB via API, 5 analyses/day
  * 
- * Usage model:
- * - Guest: 1 analysis per day
- * - Registered: 5 analyses per day
- * - Resets daily at midnight
+ * Features:
+ * - Real JWT authentication
+ * - Usage tracking (local for guests, server for registered)
+ * - Guest to registered migration
+ * - All state updates are reactive - no refresh needed
  */
 
 import {
@@ -21,14 +21,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import * as authApi from "../lib/authApi";
 import {
-  getUser,
-  removeUser,
-  createUser,
-  findUserByEmail,
-  getUsage,
-  incrementUsage as incrementUsageStorage,
-  type LocalUser,
+  getUsage as getGuestUsage,
+  incrementUsage as incrementGuestUsage,
+  getHistory,
+  clearHistory as clearGuestHistory,
   type UsageData,
 } from "../lib/storage";
 
@@ -38,8 +36,10 @@ import {
 
 export interface AuthUser {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  name: string; // Computed: firstName + lastName
 }
 
 export interface UsageInfo {
@@ -47,10 +47,23 @@ export interface UsageInfo {
   dailyLimit: number;
 }
 
-export interface LoginResult {
+export interface RegisterPayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface AuthResult {
   success: boolean;
-  user: AuthUser | null;
-  error?: "not_found";
+  user?: AuthUser;
+  error?: string;
 }
 
 interface AuthContextValue {
@@ -65,8 +78,8 @@ interface AuthContextValue {
   canUse: boolean;
   
   // Auth actions
-  login: (email: string) => LoginResult;
-  register: (name: string, email: string) => AuthUser;
+  login: (payload: LoginPayload) => Promise<AuthResult>;
+  register: (payload: RegisterPayload) => Promise<AuthResult>;
   logout: () => void;
   
   // Usage actions
@@ -93,28 +106,24 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 // Helper functions
 // ============================================
 
-function localUserToAuthUser(user: LocalUser): AuthUser {
+function apiUserToAuthUser(apiUser: authApi.AuthUser): AuthUser {
   return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
+    id: apiUser.id,
+    firstName: apiUser.firstName,
+    lastName: apiUser.lastName,
+    email: apiUser.email,
+    name: `${apiUser.firstName} ${apiUser.lastName}`.trim(),
   };
 }
 
-function getInitials(name: string): string {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length >= 2) {
-    return (parts[0]![0] + parts[1]![0]).toUpperCase();
+function getInitials(firstName: string, lastName: string): string {
+  if (firstName && lastName) {
+    return (firstName[0] + lastName[0]).toUpperCase();
   }
-  return name.slice(0, 2).toUpperCase();
-}
-
-function calculateUsageInfo(usageData: UsageData, isRegistered: boolean): UsageInfo {
-  const dailyLimit = isRegistered ? 5 : 1;
-  return {
-    usedToday: usageData.count,
-    dailyLimit,
-  };
+  if (firstName) {
+    return firstName.slice(0, 2).toUpperCase();
+  }
+  return "";
 }
 
 // ============================================
@@ -127,80 +136,109 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   // Auth state
-  const [user, setUserState] = useState<AuthUser | null>(() => {
-    const stored = getUser();
-    return stored ? localUserToAuthUser(stored) : null;
-  });
-  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Usage state
-  const [usageData, setUsageData] = useState<UsageData>(() => getUsage());
+  const [serverUsage, setServerUsage] = useState<UsageInfo>({ usedToday: 0, dailyLimit: 5 });
+  const [guestUsage, setGuestUsage] = useState<UsageData>(() => getGuestUsage());
 
   // Derived state
   const isAuthenticated = user !== null;
-  const initials = useMemo(() => (user ? getInitials(user.name) : ""), [user]);
-  const usage = useMemo(
-    () => calculateUsageInfo(usageData, isAuthenticated),
-    [usageData, isAuthenticated]
-  );
-  const canUse = usageData.count < usage.dailyLimit;
+  const initials = useMemo(() => {
+    if (!user) return "";
+    return getInitials(user.firstName, user.lastName);
+  }, [user]);
+  
+  // Combined usage based on auth state
+  const usage = useMemo<UsageInfo>(() => {
+    if (isAuthenticated) {
+      return serverUsage;
+    }
+    return {
+      usedToday: guestUsage.count,
+      dailyLimit: 1,
+    };
+  }, [isAuthenticated, serverUsage, guestUsage]);
+  
+  const canUse = usage.usedToday < usage.dailyLimit;
 
-  // Sync with localStorage changes from other tabs
+  // Initialize auth on mount
   useEffect(() => {
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === "speechi_user") {
-        const stored = getUser();
-        setUserState(stored ? localUserToAuthUser(stored) : null);
-      }
-      if (e.key === "speechi_usage" || e.key === "speechi_user") {
-        setUsageData(getUsage());
+    const init = async () => {
+      setIsLoading(true);
+      try {
+        const response = await authApi.initializeAuth();
+        if (response) {
+          setUser(apiUserToAuthUser(response.user));
+          setServerUsage(response.usage);
+        }
+      } catch {
+        // Not authenticated or error
+      } finally {
+        setIsLoading(false);
       }
     };
-
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
+    init();
   }, []);
 
   // ============================================
   // Auth Actions
   // ============================================
 
-  const register = useCallback((name: string, email: string): AuthUser => {
+  const register = useCallback(async (payload: RegisterPayload): Promise<AuthResult> => {
     setIsLoading(true);
     try {
-      const newUser = createUser(name, email);
-      const authUser = localUserToAuthUser(newUser);
-      setUserState(authUser);
-      // Refresh usage since limit changes from 1 to 5
-      setUsageData(getUsage());
-      return authUser;
+      const response = await authApi.register(payload);
+      const authUser = apiUserToAuthUser(response.user);
+      
+      // Migrate guest meetings
+      const guestMeetings = getHistory();
+      if (guestMeetings.length > 0) {
+        try {
+          await authApi.migrateMeetings(guestMeetings);
+          clearGuestHistory();
+        } catch (e) {
+          console.error("[Auth] Failed to migrate meetings:", e);
+        }
+      }
+      
+      setUser(authUser);
+      setServerUsage(response.usage);
+      
+      return { success: true, user: authUser };
+    } catch (e) {
+      const error = e as authApi.ApiError;
+      return { success: false, error: error.detail || "Registration failed" };
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  const login = useCallback((email: string): LoginResult => {
+  const login = useCallback(async (payload: LoginPayload): Promise<AuthResult> => {
     setIsLoading(true);
     try {
-      const foundUser = findUserByEmail(email);
-      if (foundUser) {
-        const authUser = localUserToAuthUser(foundUser);
-        setUserState(authUser);
-        // Refresh usage
-        setUsageData(getUsage());
-        return { success: true, user: authUser };
-      }
-      return { success: false, user: null, error: "not_found" };
+      const response = await authApi.login(payload);
+      const authUser = apiUserToAuthUser(response.user);
+      
+      setUser(authUser);
+      setServerUsage(response.usage);
+      
+      return { success: true, user: authUser };
+    } catch (e) {
+      const error = e as authApi.ApiError;
+      return { success: false, error: error.detail || "Login failed" };
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   const logout = useCallback(() => {
-    removeUser();
-    setUserState(null);
-    // Refresh usage since limit changes from 5 to 1
-    setUsageData(getUsage());
+    authApi.logout();
+    setUser(null);
+    setServerUsage({ usedToday: 0, dailyLimit: 5 });
+    // Refresh guest usage
+    setGuestUsage(getGuestUsage());
   }, []);
 
   // ============================================
@@ -208,22 +246,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // ============================================
 
   const incrementUsage = useCallback(() => {
-    const updated = incrementUsageStorage();
-    setUsageData(updated);
-  }, []);
+    if (isAuthenticated) {
+      // Server usage is incremented by the API call
+      // Just refresh from server
+      authApi.getUsage().then(setServerUsage).catch(() => {});
+    } else {
+      // Guest - increment locally
+      const updated = incrementGuestUsage();
+      setGuestUsage(updated);
+    }
+  }, [isAuthenticated]);
 
-  const refreshUsage = useCallback(() => {
-    setUsageData(getUsage());
-  }, []);
+  const refreshUsage = useCallback(async () => {
+    if (isAuthenticated) {
+      try {
+        const usage = await authApi.getUsage();
+        setServerUsage(usage);
+      } catch {
+        // Ignore
+      }
+    } else {
+      setGuestUsage(getGuestUsage());
+    }
+  }, [isAuthenticated]);
 
   const checkLimit = useCallback(() => {
-    // Refresh first to ensure we have latest data
-    const currentUsage = getUsage();
-    setUsageData(currentUsage);
-    
     const isRegistered = user !== null;
-    const limit = isRegistered ? 5 : 1;
-    const used = currentUsage.count;
+    const limit = isRegistered ? serverUsage.dailyLimit : 1;
+    const used = isRegistered ? serverUsage.usedToday : guestUsage.count;
     const allowed = used < limit;
 
     return {
@@ -233,7 +283,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       used,
       limit,
     };
-  }, [user]);
+  }, [user, serverUsage, guestUsage]);
 
   // ============================================
   // Context Value
