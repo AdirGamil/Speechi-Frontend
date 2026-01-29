@@ -83,7 +83,7 @@ export function Navbar({ className = "" }: NavbarProps) {
   });
 
   const click = useClick(context);
-  const dismiss = useDismiss(context);
+  const dismiss = useDismiss(context, { outsidePressEvent: "click" });
   const role = useRole(context, { role: "menu" });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
@@ -101,8 +101,8 @@ export function Navbar({ className = "" }: NavbarProps) {
     if (showUserMenu && dropdown && !prefersReducedMotion) {
       gsap.fromTo(
         dropdown,
-        { opacity: 0, y: -10, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.25, ease: "back.out(1.7)" }
+        { y: -8, scale: 0.97 },
+        { y: 0, scale: 1, duration: 0.2, ease: "power2.out" }
       );
     }
 

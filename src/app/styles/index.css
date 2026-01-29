@@ -3,3 +3,14 @@
 /* Z-index scale: base 0, cards 10, navbar 30, floating (dropdowns) 50, modals 60.
    Floating UI (export, language, user menu) render in #overlay-root with z-50.
    Avoid overflow-hidden on body when dropdowns are open (iOS Safari). */
+
+/* Portal root: stacking context, do not block touches; children use pointer-events:auto */
+#overlay-root {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+#overlay-root > * {
+  pointer-events: auto;
+}

@@ -67,7 +67,8 @@ export function ExportDropdown({ disabled, t, onExportWord, onExportPdf }: Expor
   });
 
   const click = useClick(context);
-  const dismiss = useDismiss(context);
+  // Use 'click' for outside dismiss so on iOS the same tap doesn't close the menu immediately (pointerdown would)
+  const dismiss = useDismiss(context, { outsidePressEvent: "click" });
   const role = useRole(context, { role: "menu" });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
@@ -78,7 +79,7 @@ export function ExportDropdown({ disabled, t, onExportWord, onExportPdf }: Expor
 
   const close = useCallback(() => setIsOpen(false), []);
 
-  // Animate dropdown
+  // Animate dropdown (start visible so iOS doesn't show blank; animate y/scale only)
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const menu = menuRef.current;
@@ -87,8 +88,8 @@ export function ExportDropdown({ disabled, t, onExportWord, onExportPdf }: Expor
     if (isOpen && menu && !prefersReducedMotion) {
       gsap.fromTo(
         menu,
-        { opacity: 0, y: -10, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.25, ease: "back.out(1.7)" }
+        { y: -8, scale: 0.97 },
+        { y: 0, scale: 1, duration: 0.2, ease: "power2.out" }
       );
     }
 
