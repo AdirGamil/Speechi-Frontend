@@ -158,23 +158,29 @@ async function parseError(response: Response): Promise<ApiError> {
 
 async function authFetch<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  /** When true, do not send Authorization header (for login/register before auth). */
+  skipAuth = false
 ): Promise<T> {
   const url = buildUrl(endpoint);
-  const token = getToken();
   
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
   };
   
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+  if (!skipAuth) {
+    const token = getToken();
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
   }
   
   const response = await fetch(url, {
     ...options,
     headers,
+    // Omit credentials for cross-origin so behavior matches signup and CORS is consistent
+    credentials: skipAuth ? "omit" : "same-origin",
   });
   
   if (!response.ok) {
@@ -191,31 +197,31 @@ async function authFetch<T>(
 
 /**
  * Register a new user.
+ * Uses skipAuth so no stale token is sent (matches login for CORS/behavior).
  */
 export async function register(payload: RegisterPayload): Promise<AuthResponse> {
-  const result = await authFetch<AuthResponse>("auth/register", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+  const result = await authFetch<AuthResponse>(
+    "auth/register",
+    { method: "POST", body: JSON.stringify(payload) },
+    true
+  );
   
-  // Store token
   setToken(result.token);
-  
   return result;
 }
 
 /**
  * Login with email and password.
+ * Uses skipAuth so no stale token is sent and request matches register (avoids CORS/preflight quirks).
  */
 export async function login(payload: LoginPayload): Promise<AuthResponse> {
-  const result = await authFetch<AuthResponse>("auth/login", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+  const result = await authFetch<AuthResponse>(
+    "auth/login",
+    { method: "POST", body: JSON.stringify(payload) },
+    true
+  );
   
-  // Store token
   setToken(result.token);
-  
   return result;
 }
 
