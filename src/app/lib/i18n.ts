@@ -158,6 +158,9 @@ export interface I18nStrings {
   microphonePermissionDenied: string;
   // Supported formats
   supportedFormats: string;
+  // Long transcript handling
+  condensedTranscriptBadge: string;
+  condensedTranscriptNote: string;
   // Landing page specific
   heroBadge: string;
   scrollIndicator: string;
@@ -317,6 +320,9 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "Microphone access denied. Please allow microphone access to record.",
     // Supported formats
     supportedFormats: "Supported formats",
+    // Long transcript handling
+    condensedTranscriptBadge: "Condensed",
+    condensedTranscriptNote: "Full transcript available in Original Transcript tab",
     // Landing page specific
     heroBadge: "AI-Powered Meeting Notes",
     scrollIndicator: "Scroll",
@@ -474,6 +480,9 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "הגישה למיקרופון נדחתה. אנא אשר גישה למיקרופון כדי להקליט.",
     // Supported formats
     supportedFormats: "פורמטים נתמכים",
+    // Long transcript handling
+    condensedTranscriptBadge: "מקוצר",
+    condensedTranscriptNote: "התמליל המלא זמין בלשונית תמליל מקורי",
     // Landing page specific
     heroBadge: "תמלול פגישות מונע AI",
     scrollIndicator: "גלול",
@@ -631,6 +640,9 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "Accès au microphone refusé. Veuillez autoriser l'accès au microphone pour enregistrer.",
     // Supported formats
     supportedFormats: "Formats pris en charge",
+    // Long transcript handling
+    condensedTranscriptBadge: "Condensé",
+    condensedTranscriptNote: "Transcription complète disponible dans l'onglet Transcription originale",
     // Landing page specific
     heroBadge: "Notes de réunion alimentées par IA",
     scrollIndicator: "Défiler",
@@ -788,6 +800,9 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "Acceso al micrófono denegado. Por favor, permita el acceso al micrófono para grabar.",
     // Supported formats
     supportedFormats: "Formatos compatibles",
+    // Long transcript handling
+    condensedTranscriptBadge: "Condensado",
+    condensedTranscriptNote: "Transcripción completa disponible en la pestaña Transcripción original",
     // Landing page specific
     heroBadge: "Notas de reunión impulsadas por IA",
     scrollIndicator: "Desplazar",
@@ -945,6 +960,9 @@ const I18N: Record<UiLang, I18nStrings> = {
     microphonePermissionDenied: "تم رفض الوصول إلى الميكروفون. يرجى السماح بالوصول إلى الميكروفون للتسجيل.",
     // Supported formats
     supportedFormats: "الصيغ المدعومة",
+    // Long transcript handling
+    condensedTranscriptBadge: "مختصر",
+    condensedTranscriptNote: "النص الكامل متاح في علامة تبويب النص الأصلي",
     // Landing page specific
     heroBadge: "ملاحظات اجتماعات مدعومة بالذكاء الاصطناعي",
     scrollIndicator: "تمرير",

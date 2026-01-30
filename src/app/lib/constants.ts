@@ -15,6 +15,8 @@ export const SUPPORTED_AUDIO_EXTENSIONS = [
   "flac",
   "webm",
   "mp4",
+  "mpeg",
+  "mpg",
 ] as const;
 
 /** Accept string for file inputs */
@@ -28,6 +30,8 @@ export const ACCEPT_AUDIO = [
   ".flac",
   ".webm",
   ".mp4",
+  ".mpeg",
+  ".mpg",
   // MIME types
   "audio/mpeg",
   "audio/mp3",
@@ -44,13 +48,15 @@ export const ACCEPT_AUDIO = [
   "audio/webm",
   "video/webm",
   "video/mp4",
+  "audio/x-mpeg",
+  "video/mpeg",
 ].join(",");
 
 /** Regex to validate audio file extensions */
-export const AUDIO_FILE_REGEX = /\.(mp3|wav|m4a|aac|ogg|flac|webm|mp4)$/i;
+export const AUDIO_FILE_REGEX = /\.(mp3|wav|m4a|aac|ogg|flac|webm|mp4|mpeg|mpg)$/i;
 
 /** Human-readable format list */
-export const AUDIO_FORMATS_DISPLAY = "MP3, WAV, M4A, AAC, OGG, FLAC, WEBM, MP4";
+export const AUDIO_FORMATS_DISPLAY = "MP3, WAV, M4A, AAC, OGG, FLAC, WEBM, MP4, MPEG";
 
 export const OUTPUT_LANGUAGES = [
   { value: "en" as const, label: "English" },

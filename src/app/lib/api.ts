@@ -52,10 +52,18 @@ export interface Analysis {
   decisions: string[];
   action_items: ActionItem[];
   translated_transcript: string;
+  /** Original Whisper transcript (always full, never condensed) */
+  raw_transcript?: string;
+  /** Output language code used for analysis */
+  language?: string;
+  /** True if translated_transcript is condensed due to transcript length */
+  is_condensed?: boolean;
 }
 
 export interface ApiResult {
+  /** Raw Whisper transcript (kept for backward compatibility) */
   transcript: string;
+  /** Structured analysis including both transcripts */
   analysis: Analysis;
 }
 

@@ -565,12 +565,14 @@ export function NewMeeting() {
       
       setResult(data);
       setStatus(t.done);
+      // Use raw_transcript from analysis if available, fall back to top-level transcript
+      const rawTranscriptForHistory = data.analysis.raw_transcript || data.transcript;
       const entry = add({
         createdAt: new Date().toISOString(),
         fileName: file.name,
         outputLanguage: outputLang,
         summary: data.analysis.summary,
-        transcriptRaw: data.transcript,
+        transcriptRaw: rawTranscriptForHistory,
         transcriptClean: data.analysis.translated_transcript,
         participants: data.analysis.participants ?? [],
         decisions: data.analysis.decisions ?? [],
@@ -625,6 +627,10 @@ export function NewMeeting() {
     }
   }, [isAuthenticated, limitReached]);
 
+  // Get raw transcript - prefer analysis.raw_transcript if available, fall back to top-level transcript
+  const rawTranscript = result?.analysis?.raw_transcript || result?.transcript || "";
+  const isCondensed = result?.analysis?.is_condensed ?? false;
+
   const tabs: TabItem[] = result
     ? [
         {
@@ -639,10 +645,23 @@ export function NewMeeting() {
           icon: HiDocumentText,
           panel: (
             <div>
-              <p className="mb-4 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                <HiLanguage className="h-4 w-4" />
-                {t.cleanTranscriptLabel}
-              </p>
+              <div className="mb-4 flex flex-wrap items-center gap-2">
+                <p className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                  <HiLanguage className="h-4 w-4" />
+                  {t.cleanTranscriptLabel}
+                </p>
+                {isCondensed && (
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
+                    <HiExclamationTriangle className="h-3.5 w-3.5" />
+                    {t.condensedTranscriptBadge}
+                  </span>
+                )}
+              </div>
+              {isCondensed && (
+                <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+                  {t.condensedTranscriptNote}
+                </p>
+              )}
               <div className="max-h-[500px] space-y-3 overflow-auto whitespace-pre-wrap rounded-xl border border-zinc-200/60 bg-zinc-50/50 px-5 py-5 text-base leading-relaxed text-zinc-700 dark:border-zinc-700/60 dark:bg-zinc-800/50 dark:text-zinc-300">
                 {result.analysis.translated_transcript?.trim() || t.none}
               </div>
@@ -666,7 +685,7 @@ export function NewMeeting() {
                 className="max-h-[500px] overflow-auto whitespace-pre-wrap rounded-xl border border-zinc-200/60 bg-zinc-100/80 px-5 py-4 text-sm leading-relaxed text-zinc-600 dark:border-zinc-700/60 dark:bg-zinc-800/80 dark:text-zinc-400"
                 title={t.originalTranscriptTooltip}
               >
-                {result.transcript?.trim() || t.none}
+                {rawTranscript.trim() || t.none}
               </pre>
             </div>
           ),
